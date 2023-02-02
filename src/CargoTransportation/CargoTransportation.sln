@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cargo.API", "Services\Cargo\Cargo.API\Cargo.API.csproj", "{BB7B8A81-FAA5-434A-B14A-F4C4CA859F78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transport.API", "Services\Transportation\Transport.API\Transport.API.csproj", "{ED7010CB-669D-4944-B47D-EB5F78D33FE4}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB7B8A81-FAA5-434A-B14A-F4C4CA859F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB7B8A81-FAA5-434A-B14A-F4C4CA859F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB7B8A81-FAA5-434A-B14A-F4C4CA859F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB7B8A81-FAA5-434A-B14A-F4C4CA859F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED7010CB-669D-4944-B47D-EB5F78D33FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED7010CB-669D-4944-B47D-EB5F78D33FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED7010CB-669D-4944-B47D-EB5F78D33FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED7010CB-669D-4944-B47D-EB5F78D33FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
