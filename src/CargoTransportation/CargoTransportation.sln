@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cargo", "Cargo", "{E44760B8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transportation", "Transportation", "{D6100462-4AF7-4EBD-B57B-BBE07E3EAD00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cargo.Application", "Services\Cargo\Cargo.Application\Cargo.Application.csproj", "{4255F631-D61B-4276-AF61-2750AE8F395D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cargo.Application", "Services\Cargo\Cargo.Application\Cargo.Application.csproj", "{4255F631-D61B-4276-AF61-2750AE8F395D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cargo.Domain", "Services\Cargo\Cargo.Domain\Cargo.Domain.csproj", "{7021E3D1-8978-4AD3-9FEA-A6C961E79A11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cargo.Domain", "Services\Cargo\Cargo.Domain\Cargo.Domain.csproj", "{7021E3D1-8978-4AD3-9FEA-A6C961E79A11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cargo.Infrastructure", "Cargo.Infrastructure\Cargo.Infrastructure.csproj", "{493E9324-D4D2-4863-B7BF-EBA768B8EF2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cargo.Infrastructure", "Cargo.Infrastructure\Cargo.Infrastructure.csproj", "{493E9324-D4D2-4863-B7BF-EBA768B8EF2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
