@@ -9,5 +9,5 @@ public interface ICargoRepository : IRepository<Cargo>
     void Update(Cargo cargo);
     void RemoveAt(int id);
     Task<Cargo> GetAsyncById(int id);
-    Task<IEnumerable<Cargo>> GetAllAsync();
+    Task<IEnumerable<Cargo>> GetAllAsyncByLoaderId(int id);
 }
