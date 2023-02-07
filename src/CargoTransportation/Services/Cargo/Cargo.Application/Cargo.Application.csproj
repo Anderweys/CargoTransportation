@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="IntegrationEvent\EventHandling\" />
   </ItemGroup>
 
   <ItemGroup>
