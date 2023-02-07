@@ -1,4 +1,5 @@
-﻿using Cargo.Domain.Events;
+﻿using Cargo.Domain.AggregatesModel.LoaderAggragates;
+using Cargo.Domain.Events;
 using Cargo.Domain.SeedWork;
 using System.Collections.ObjectModel;
 
@@ -7,7 +8,7 @@ namespace Cargo.Domain.AggregatesModel.CargoAggregates;
 
 public class Cargo : Entity, IAggregateRoot
 {
-    public string IdentityGuid { get; private set; }
+    public int LoaderId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public float CurrentVolume { get; private set; }
@@ -20,7 +21,7 @@ public class Cargo : Entity, IAggregateRoot
     }
 
     public Cargo(int id,                // Cargo.
-                 string guid,
+                 int loaderId,
                  string name,
                  string description,
                  string cargoTypeName,  // CargoType.
@@ -34,7 +35,7 @@ public class Cargo : Entity, IAggregateRoot
                  float minPressure)
     {
         Id = id;
-        IdentityGuid = guid;
+        LoaderId = loaderId;
         Name = name;
         Description = description;
         CargoType = new(
@@ -61,8 +62,9 @@ public class Cargo : Entity, IAggregateRoot
     public void LoadCargo()
     {
         var cargoPlacedDomainEvent = new CargoPlacedDomainEvent(
+                LoaderId,
                 $"A new cargo with items prepared for loading.\n" +
-                $"Id: {Id}\nName: {Name}\nDescription: {Description}",
+                $"LoaderId: {LoaderId}\nId: {Id}",
                 this,
                 DateTime.UtcNow);
 
