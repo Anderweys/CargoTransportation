@@ -16,7 +16,7 @@ public abstract class Entity
 
     public virtual int Id
     {
-        get => Id;
+        get => _id;
         protected set
         {
             _id = value;
