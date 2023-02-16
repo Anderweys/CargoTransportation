@@ -1,6 +1,6 @@
-﻿using Cargo.Domain.SeedWork;
+﻿using CargoObject.Domain.SeedWork;
 
-namespace Cargo.Domain.AggregatesModel.LoaderAggragates;
+namespace CargoObject.Domain.AggregatesModel.LoaderAggragates;
 
 public interface ILoaderRepository : IRepository<Loader>
 {

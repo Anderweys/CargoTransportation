@@ -1,9 +1,9 @@
-﻿using Cargo.Domain.AggregatesModel.LoaderAggragates;
-using Cargo.Domain.Events;
-using Cargo.Domain.SeedWork;
+﻿using CargoObject.Domain.AggregatesModel.LoaderAggragates;
+using CargoObject.Domain.Events;
+using CargoObject.Domain.SeedWork;
 using System.Collections.ObjectModel;
 
-namespace Cargo.Domain.AggregatesModel.CargoAggregates;
+namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
 
 public class Cargo : Entity, IAggregateRoot
@@ -17,7 +17,7 @@ public class Cargo : Entity, IAggregateRoot
 
     public Cargo()
     {
-        _cargoItems= new List<CargoItem>();
+        _cargoItems = new List<CargoItem>();
     }
 
     public Cargo(int id,                // Cargo.

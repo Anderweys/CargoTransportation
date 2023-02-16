@@ -1,7 +1,7 @@
-﻿using CargoObject = Cargo.Domain.AggregatesModel.CargoAggregates.Cargo;
+﻿using CargoObject.Domain.AggregatesModel.CargoAggregates;
 using MediatR;
 
-namespace Cargo.Domain.Events;
+namespace CargoObject.Domain.Events;
 
 /// <summary>
 /// It's when a cargo prepared for loading.
@@ -10,10 +10,10 @@ public class CargoPlacedDomainEvent : INotification
 {
     public int LoaderId { get; }
     public string Description { get; }
-    public CargoObject Cargo { get; }
+    public Cargo Cargo { get; }
     public DateTime LoadData { get; }
 
-    public CargoPlacedDomainEvent(int loaderId, string description, CargoObject cargo, DateTime loadData)
+    public CargoPlacedDomainEvent(int loaderId, string description, Cargo cargo, DateTime loadData)
     {
         LoaderId = loaderId;
         Description=description;

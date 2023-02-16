@@ -1,6 +1,6 @@
-﻿using Cargo.Domain.SeedWork;
+﻿using CargoObject.Domain.SeedWork;
 
-namespace Cargo.Domain.AggregatesModel.CargoAggregates;
+namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
 
 public class CargoItem : Entity
@@ -14,11 +14,11 @@ public class CargoItem : Entity
     {
     }
 
-    public CargoItem(string name, string description, float price, float volume)
+    public CargoItem(string name, string description, float volume, float price)
     {
         Name=name;
         Description=description;
-        Price=price;
         Volume=volume;
+        Price=price;
     }
 }

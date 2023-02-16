@@ -1,15 +1,15 @@
-﻿using CargoObject = Cargo.Domain.AggregatesModel.CargoAggregates.Cargo;
-using Cargo.Domain.AggregatesModel.LoaderAggragates;
+﻿using CargoObject = CargoObject.Domain.AggregatesModel.CargoAggregates.Cargo;
+using CargoObject.Domain.AggregatesModel.LoaderAggragates;
 
-namespace Cargo.Application.IntegrationEvent.Event;
+namespace CargoObject.Application.IntegrationEvent.Event;
 
 
 public class CargosLoadedIntegrationEvent
 {
     public Loader Loader { get; }
-    public List<CargoObject> Cargos { get; }
+    public List<Domain.AggregatesModel.CargoAggregates.Cargo> Cargos { get; }
 
-    public CargosLoadedIntegrationEvent(Loader loader, List<CargoObject> cargos)
+    public CargosLoadedIntegrationEvent(Loader loader, List<Domain.AggregatesModel.CargoAggregates.Cargo> cargos)
     {
         Loader=loader;
         Cargos=cargos;

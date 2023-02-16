@@ -1,4 +1,4 @@
-﻿namespace Cargo.Domain.SeedWork;
+﻿namespace CargoObject.Domain.SeedWork;
 
 
 public interface IUnitOfWork : IDisposable
