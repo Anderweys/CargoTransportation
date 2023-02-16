@@ -26,11 +26,11 @@ public class CargoPlacedDomainEventHandler
     public async Task Handle(CargoPlacedDomainEvent notification, CancellationToken cancellationToken)
     {
         _logger.CreateLogger<CargoPlacedDomainEvent>()
-            .LogTrace((string)($"Cargo with id: {notification.Cargo.Id} is beginning to load\n" +
-                      $"by loader with id: {notification.LoaderId}."));
+            .LogTrace($"Cargo with id: {notification.Cargo.Id} is beginning to load\n" +
+                      $"by loader with id: {notification.LoaderId}.");
 
         var cargos = await _cargoRepository.GetAllAsyncByLoaderId(notification.LoaderId);
-        var loader = await _loaderRepository.GetById(notification.LoaderId);
+        var loader = await _loaderRepository.GetAsyncById(notification.LoaderId);
 
         loader.LoadCargos(cargos);
 

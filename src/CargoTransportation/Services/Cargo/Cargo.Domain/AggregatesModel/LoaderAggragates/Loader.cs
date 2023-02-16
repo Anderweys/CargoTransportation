@@ -1,5 +1,7 @@
 ﻿using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.Events;
 using CargoObject.Domain.SeedWork;
+using System.Collections;
 
 namespace CargoObject.Domain.AggregatesModel.LoaderAggragates;
 
@@ -25,13 +27,14 @@ public class Loader : Entity, IAggregateRoot
         _cargos = new();
     }
 
+    public IReadOnlyCollection<Cargo> Cargos() => _cargos.AsReadOnly();
     public void LoadCargo(Cargo cargo)
     {
         _cargos.Add(cargo);
     }
     public void LoadCargos(IEnumerable<Cargo> cargos)
     {
-        foreach(var cargo in cargos)
+        foreach (var cargo in cargos)
         {
             _cargos.Add(cargo);
         }
@@ -40,9 +43,11 @@ public class Loader : Entity, IAggregateRoot
     {
         _cargos.Remove(cargo);
     }
-
     public void FinishLoad()
     {
-
+        AddDomainEvent(new LoadFinishedDomainEvent(
+            Id,
+            _cargos,
+            DateTime.UtcNow));
     }
 }

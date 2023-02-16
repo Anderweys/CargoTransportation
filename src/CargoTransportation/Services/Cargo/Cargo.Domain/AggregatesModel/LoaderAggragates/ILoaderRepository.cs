@@ -6,5 +6,5 @@ public interface ILoaderRepository : IRepository<Loader>
 {
     void Add(Loader loader);
     void Update(Loader loader);
-    Task<Loader> GetById(int id);
+    Task<Loader> GetAsyncById(int id);
 }
