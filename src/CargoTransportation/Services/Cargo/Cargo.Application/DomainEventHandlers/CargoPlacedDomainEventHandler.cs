@@ -1,10 +1,10 @@
-﻿using Cargo.Domain.AggregatesModel.CargoAggregates;
-using Cargo.Domain.AggregatesModel.LoaderAggragates;
-using Cargo.Domain.Events;
+﻿using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.AggregatesModel.LoaderAggragates;
+using CargoObject.Domain.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Cargo.Application.DomainEventHandlers;
+namespace CargoObject.Application.DomainEventHandlers;
 
 /// <summary>
 /// It's when to add a cargo using a loader.
@@ -26,8 +26,8 @@ public class CargoPlacedDomainEventHandler
     public async Task Handle(CargoPlacedDomainEvent notification, CancellationToken cancellationToken)
     {
         _logger.CreateLogger<CargoPlacedDomainEvent>()
-            .LogTrace($"Cargo with id: {notification.Cargo.Id} is beginning to load\n" +
-                      $"by loader with id: {notification.LoaderId}.");
+            .LogTrace((string)($"Cargo with id: {notification.Cargo.Id} is beginning to load\n" +
+                      $"by loader with id: {notification.LoaderId}."));
 
         var cargos = await _cargoRepository.GetAllAsyncByLoaderId(notification.LoaderId);
         var loader = await _loaderRepository.GetById(notification.LoaderId);

@@ -1,16 +1,16 @@
-﻿using CargoObject = Cargo.Domain.AggregatesModel.CargoAggregates.Cargo;
+﻿using CargoObject.Domain.AggregatesModel.CargoAggregates;
 using MediatR;
 
-namespace Cargo.Domain.Events;
+namespace CargoObject.Domain.Events;
 
 
 public class LoadFinishedDomainEvent : INotification
 {
     public int LoaderId { get; }
-    public List<CargoObject> Cargos { get; }
+    public List<Cargo> Cargos { get; }
     public DateTime FinishTime { get; }
 
-    public LoadFinishedDomainEvent(int loaderId, List<CargoObject> cargos, DateTime finishTime)
+    public LoadFinishedDomainEvent(int loaderId, List<Cargo> cargos, DateTime finishTime)
     {
         LoaderId = loaderId;
         Cargos = cargos;

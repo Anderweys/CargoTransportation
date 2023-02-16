@@ -1,10 +1,10 @@
-﻿using Cargo.Domain.AggregatesModel.CargoAggregates;
-using Cargo.Domain.AggregatesModel.LoaderAggragates;
-using Cargo.Domain.Events;
+﻿using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.AggregatesModel.LoaderAggragates;
+using CargoObject.Domain.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Cargo.Application.DomainEventHandlers;
+namespace CargoObject.Application.DomainEventHandlers;
 
 
 public class LoadFinishedDomainEventHandler

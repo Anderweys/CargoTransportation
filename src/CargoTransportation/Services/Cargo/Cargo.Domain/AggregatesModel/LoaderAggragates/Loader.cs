@@ -1,7 +1,7 @@
-﻿using CargoObject = Cargo.Domain.AggregatesModel.CargoAggregates.Cargo;
-using Cargo.Domain.SeedWork;
+﻿using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.SeedWork;
 
-namespace Cargo.Domain.AggregatesModel.LoaderAggragates;
+namespace CargoObject.Domain.AggregatesModel.LoaderAggragates;
 
 
 public class Loader : Entity, IAggregateRoot
@@ -9,7 +9,7 @@ public class Loader : Entity, IAggregateRoot
     public Bio Bio { get; private set; }
     public string Description { get; private set; }
     public DateTime LoadingTime { get; private set; }
-    private List<CargoObject> _cargos;
+    private List<Cargo> _cargos;
 
     public Loader()
     {
@@ -25,18 +25,18 @@ public class Loader : Entity, IAggregateRoot
         _cargos = new();
     }
 
-    public void LoadCargo(CargoObject cargo)
+    public void LoadCargo(Cargo cargo)
     {
         _cargos.Add(cargo);
     }
-    public void LoadCargos(IEnumerable<CargoObject> cargos)
+    public void LoadCargos(IEnumerable<Cargo> cargos)
     {
         foreach(var cargo in cargos)
         {
             _cargos.Add(cargo);
         }
     }
-    public void UnloadCargo(CargoObject cargo)
+    public void UnloadCargo(Cargo cargo)
     {
         _cargos.Remove(cargo);
     }

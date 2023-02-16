@@ -1,6 +1,6 @@
-﻿using Cargo.Domain.SeedWork;
+﻿using CargoObject.Domain.SeedWork;
 
-namespace Cargo.Domain.AggregatesModel.CargoAggregates;
+namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
 
 public interface ICargoRepository : IRepository<Cargo>
