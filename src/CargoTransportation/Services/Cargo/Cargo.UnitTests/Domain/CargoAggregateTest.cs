@@ -1,6 +1,4 @@
-﻿using CargoObject.Domain.Events;
-
-namespace CargoObject.UnitTests.Domain;
+﻿namespace CargoObject.UnitTests.Domain;
 
 
 public class CargoAggregateTest
