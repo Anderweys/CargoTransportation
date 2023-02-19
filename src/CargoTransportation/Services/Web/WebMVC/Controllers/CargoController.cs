@@ -7,7 +7,7 @@ namespace WebMVC.Controllers;
 public class CargoController : Controller
 {
     private readonly ILogger<CargoController> _logger;
-    private ICargoService _cargoService; 
+    private ICargoService _cargoService;
 
     public CargoController(ILogger<CargoController> logger, ICargoService cargoService)
     {
@@ -20,10 +20,9 @@ public class CargoController : Controller
     [HttpPost]
     public async Task<IActionResult> Index([FromForm] User user)
     {
+        var cargo = await _cargoService.GetCargo();
         _logger.LogInformation($"Query in CargoController: {user.Name} {user.Email}");
 
-        var cargo = await _cargoService.GetCargo();
-        _logger.LogInformation($"Gotcha cargo!: {cargo.Name} {cargo.Email}");
         return Ok(cargo);
     }
 }
