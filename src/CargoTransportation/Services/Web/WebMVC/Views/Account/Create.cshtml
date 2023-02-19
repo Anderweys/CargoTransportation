@@ -1,15 +1,17 @@
-﻿<h3>Cargo Transportation</h3>
+﻿@model WebMVC.Models.User
 
-<form method="post">
+<h3>Sign up</h3>
+<form asp-action="create" asp-controller="account">
     <p>
-        <label>Name:</label><br />
+        <label>Login:</label><br />
         <input type="text" name="name" required/>
     </p>
     <p>
-        <label>Description:</label><br />
+        <label>Password:</label><br />
         <input type="text" name="email" required/>
     </p>
     <p>
         <input type="submit" value="Create" />
     </p>
 </form>
+
