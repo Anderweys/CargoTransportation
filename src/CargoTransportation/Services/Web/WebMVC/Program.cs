@@ -4,12 +4,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClientServices();
+builder.Services.AddRepositoryService();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Cargo}/{action}",
-    defaults: new {controller = "Cargo", action = "Index"});
+    pattern: "{controller=Account}/{action=Index}",
+    defaults: new { controller = "Account", action = "Index" });
 
 app.Run();

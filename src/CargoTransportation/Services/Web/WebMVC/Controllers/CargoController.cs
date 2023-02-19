@@ -23,7 +23,6 @@ public class CargoController : Controller
         _logger.LogInformation($"Query in CargoController: {user.Name} {user.Email}");
 
         var cargo = await _cargoService.GetCargo();
-        // TODO: Get result from Cargo service.
         _logger.LogInformation($"Gotcha cargo!: {cargo.Name} {cargo.Email}");
         return Ok(cargo);
     }

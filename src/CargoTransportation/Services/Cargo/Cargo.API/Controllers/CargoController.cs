@@ -8,7 +8,6 @@ namespace CargoObject.API.Controllers;
 [ApiController]
 public class CargoController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly ILogger<CargoController> _logger;
 
     public CargoController(ILogger<CargoController> logger)
@@ -16,11 +15,11 @@ public class CargoController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
+    [HttpGet]
     public IActionResult GetCargo()
     {
-        _logger.LogInformation("Gocha");
         var cargo = new Cargo() { Name = "lol", Email = "Kek" };
+        _logger.LogInformation($"Gocha: Name: {cargo.Name} Email: {cargo.Email}");
         return Ok(cargo);
     }
 

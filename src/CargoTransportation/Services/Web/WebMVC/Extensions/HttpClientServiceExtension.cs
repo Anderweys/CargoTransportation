@@ -2,7 +2,7 @@
 
 namespace WebMVC.Extensions;
 
-public static class ServiceProviderExtensions
+public static class HttpClientServiceExtension
 {
     public static IServiceCollection AddHttpClientServices(this IServiceCollection services)
     {
