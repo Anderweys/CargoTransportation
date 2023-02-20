@@ -1,41 +1,17 @@
-﻿<h3>Cargo Transportation - Create account</h3>
+﻿@model WebMVC.Models.User
 
-<table>
-    <tr>
-        <td><label>Login:</label></td>
-        <td><input type="text" id="login" /></td>
-    </tr>
-    <tr>
-        <td><label>Password:</label></td>
-        <td><input type="password" id="password" /></td>
-    </tr>
-    <tr>
-        <td><input type='button' id="signup" value='Create' /></td>
-        <td><div id="info"></div></td>
-    </tr>
-</table>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#signup').click(function (e) {
-            e.preventDefault();
-            var login = $('#login').val();
-            var password = $('#password').val();
-            var url = '@Url.Action("Create", "Account")?login=' + login + '&password=' + password;
-
-            $.post(url, function (result) {
-                console.log(result);
-                if (result) {
-                    setTimeout(() => { window.location.replace('@Url.Action("Index", "Account")'); }, 1000);
-                    document.getElementById("info").innerHTML = "Account created successfully!";
-                }
-                else {
-                    document.getElementById("info").innerHTML = "This account exists.";
-                }
-            });
-
-        });
-    });
-</script>
+<h3>Sign up</h3>
+<form asp-action="create" asp-controller="account">
+    <p>
+        <label>Login:</label><br />
+        <input type="text" name="name" required/>
+    </p>
+    <p>
+        <label>Password:</label><br />
+        <input type="text" name="email" required/>
+    </p>
+    <p>
+        <input type="submit" value="Create" />
+    </p>
+</form>
 

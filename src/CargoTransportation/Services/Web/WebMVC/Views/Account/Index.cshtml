@@ -1,46 +1,19 @@
-﻿<h3>Cargo Transportation</h3>
+﻿<h3>Welcome to Cargo transportation!</h3>
 
-<table>
-    <tr>
-        <td><label>Login:</label></td>
-        <td><input type="text" id="login" /></td>
-    </tr>
-    <tr>
-        <td><label>Password:</label></td>
-        <td><input type="password" id="password" /></td>
-    </tr>
-    <tr>
-        <td><input type='button' id="signin" value='Sign In' /></td>
-        <td><div id="info"></div></td>
-    </tr>
-    <tr>
-        <td>
-            <input type="button" value="Sign Up" onclick="@("window.location.href='" + @Url.Action("create", "account") + "'");" />
-        </td>
-    </tr>
-</table>
+<form asp-action="signin" asp-controller="account">
+    <p>
+        <label>Login:</label><br />
+        <input type="text" name="name" required/>
+    </p>
+    <p>
+        <label>Password:</label><br />
+        <input type="text" name="email" required/>
+    </p>
+    <p>
+        <input type="submit" value="send"/>
+    </p>
+</form>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#signin').click(function (e) {
-            e.preventDefault();
-            var login = $('#login').val();
-            var password = $('#password').val();
-            var url = '@Url.Action("Signin", "Account")?login=' + login + '&password=' + password;
-
-            $.post(url, function (result) {
-                if (result) {
-                    setTimeout(() => { window.location.replace('@Url.Action("Index", "Cargo")'); }, 1000);
-                    document.getElementById("info").innerHTML = "Welcome!";
-                }
-                else {
-                    document.getElementById("info").innerHTML = "Incorrect login or password.";
-                }
-            });
-
-        });
-    });
-</script>
-
+<p>
+    <a asp-action="Create">Sign Up</a>
+</p>

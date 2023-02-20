@@ -1,3 +1,3 @@
 ﻿namespace WebMVC.Models;
 
-public record User(string Login, string Password);
+public record User(string Name, string Email);
