@@ -17,13 +17,20 @@ public class UserRepository : IUserRepository
 
     public Task<bool> AddAsync(User user)
     {
+        var isExists = _users.Any(u => u.Login == user.Login);
+
+        if (isExists)
+        {
+            return Task.FromResult(false);
+        }
+
         _users.Add(user);
         return Task.FromResult(true);
     }
 
     public Task<User> GetAsync(User user)
     {
-        var result = _users.Find(u => u.Name == user.Name && u.Email == user.Email);
+        var result = _users.Find(u => u.Login == user.Login && u.Password == user.Password);
         return Task.FromResult(result);
     }
 
