@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebMVC.Models;
 
 namespace WebMVC.Controllers;
@@ -17,43 +16,41 @@ public class AccountController : Controller
 
     [HttpGet]
     public IActionResult Index() => View();
-    
+
     [HttpGet]
     public IActionResult Create() => View();
 
     [HttpPost]
-    public async Task<IActionResult> SignIn([FromForm] User user)
+    public async Task<IActionResult> SignIn([FromQuery] User user)
     {
         var result = await _userRepository.GetAsync(user);
 
         if (result is not null)
         {
             _logger.LogInformation(
-                "User sign in.\n\tName: {Name}\n\tEmail: {Email}\n\tData: {DateTime}\n",
-                user.Name, user.Email, DateTime.UtcNow);
+                "User sign in.\n\tLogin: {Login}\n\tData: {DateTime}\n",
+                user.Login, DateTime.UtcNow);
 
-            return RedirectToAction(nameof(CargoController.Index), "cargo");
+            return Ok(true);
         }
 
-        //TODO: Add AJAX.
-        return NotFound();
+        return NoContent();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] User user)
+    public async Task<IActionResult> Create([FromQuery] User user)
     {
         var isCreated = await _userRepository.AddAsync(user);
 
         if (isCreated)
         {
             _logger.LogInformation(
-                "User created.\n\tName: {Name}\n\tEmail: {Email}\n\tData: {DateTime}\n",
-                user.Name, user.Email, DateTime.UtcNow);
+                "User created.\n\tLogin: {Login}\n\tData: {DateTime}\n",
+                user.Login, DateTime.UtcNow);
 
-            return RedirectToAction(nameof(AccountController.Index));
+            return Ok(true);
         }
 
-        //TODO: Add AJAX.
-        return NotFound();
+        return NoContent();
     }
 }
