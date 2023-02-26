@@ -21,7 +21,7 @@ public class CargoController : Controller
     public async Task<IActionResult> Index([FromForm] User user)
     {
         var cargo = await _cargoService.GetCargo();
-        _logger.LogInformation($"Query in CargoController: {user.Name} {user.Email}");
+        _logger.LogInformation($"Query in CargoController: {user.Login}");
 
         return Ok(cargo);
     }
