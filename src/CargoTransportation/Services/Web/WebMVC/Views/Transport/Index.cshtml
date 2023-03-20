@@ -1,0 +1,135 @@
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h3 class="text-dark">Cargo Transportation - Transpotration</h3>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" id="transportDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Transport type
+            </button>
+            <div class="dropdown-menu" aria-labelledby="transportDropDown" id="transportTypeDropdown">
+                <button class="dropdown-item" type="button">Action</button>
+                <button class="dropdown-item" type="button">Another action</button>
+                <button class="dropdown-item" type="button">Something else here</button>
+            </div>
+        </div>
+
+        <p></p>
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="transport">Transport: not selected</label>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="countCargo">Count cargo: 0</label>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="price">Price: 0.00 $</label>
+        </div>
+
+        <div class="btn-group" role="group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type='button' class="btn btn-primary btn-sm" id="ConfirmTransport" value='Confirm' />
+            </div>
+        </div>
+
+        <p></p>
+        <dl class="row" id="itemList">
+        </dl>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        function SelectedTransportType(selectedId) {
+            var splitedData = selectedId.split('-');
+            let name = splitedData[0];
+            let type = splitedData[1];
+            var data = {
+                "name": name,
+                "type": type
+            };
+
+            $.ajax({
+                url: "@Url.Action("SelectTransport","Transport")?token=" + localStorage.getItem("token"),
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    $('#transport').html("Transport: " + data.transport);
+                    $('#countCargo').html("Count cargo: " + data.countCargo);
+                    $('#price').html("Price: "+ data.price + " $");
+                }
+            });
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ConfirmTransport').click(function (e) {
+                e.preventDefault();
+                setTimeout(() => { window.location.replace('@Url.Action("Index", "Routing")?token=' + localStorage.getItem("token")); }, 500);
+                $('#itemList').html("Waiting...");
+            });
+        });
+    </script>
+
+    <!-- Load selected items.-->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        function LoadItemsFromServer() {
+            $.ajax({
+                url: "@Url.Action("GetUserItems","Transport")?token=" + localStorage.getItem("token"),
+                type: 'GET',
+                success: function (data) {
+                    var items = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        items += `<dt class="col-sm-3 text-primary">Item: </dt><dd class="col-sm-9 text-primary">` + (i + 1) + "</dd>";
+                        for (var key in item) {
+                            var value = `<dt class="col-sm-3">` + key + `: </dt><dd class="col-sm-9">` + item[key] + "</dd>";
+                            items += value;
+                        }
+                    }
+                    $('#itemList').html(items);
+                }
+            });
+        }
+        setTimeout(() => { LoadItemsFromServer(); }, 600);
+    </script>
+
+    <!-- Load available transport.-->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        function LoadAvailableTransport() {
+            $.ajax({
+                url: "@Url.Action("LoadTransport","Transport")?token=" + localStorage.getItem("token"),
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    $('#transportTypeDropdown').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        let name = item["name"];
+                        let type = item["type"];
+
+                        var value = `<button id="${name}-${type}" onclick="SelectedTransportType(this.id)" class="dropdown-item" type = "button">${name}</button>`;
+
+                        $('#transportTypeDropdown').append(value);
+                    }
+                }
+            });
+        }
+        setTimeout(() => { LoadAvailableTransport(); });
+    </script>
+</body>

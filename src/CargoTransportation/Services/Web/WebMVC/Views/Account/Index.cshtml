@@ -1,45 +1,65 @@
-﻿<h3>Cargo Transportation</h3>
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h3 class ="text-dark">Cargo Transportation</h3>
+        </div>
 
-<table>
-    <tr>
-        <td><label>Login:</label></td>
-        <td><input type="text" id="login" /></td>
-    </tr>
-    <tr>
-        <td><label>Password:</label></td>
-        <td><input type="password" id="password" /></td>
-    </tr>
-    <tr>
-        <td><input type='button' id="signin" value='Sign In' /></td>
-        <td><div id="info"></div></td>
-    </tr>
-    <tr>
-        <td>
-            <input type="button" value="Sign Up" onclick="@("window.location.href='" + @Url.Action("create", "account") + "'");" />
-        </td>
-    </tr>
-</table>
+        <div class="col-md-4 form-group">
+            <input type="text" id="login" class="form-control" placeholder="Login" />
+        </div>
 
+        <div class="col-md-4 form-group">
+            <input type="password" id="password" class="form-control" placeholder="Password" />
+        </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#signin').click(function (e) {
-            e.preventDefault();
-            var login = $('#login').val();
-            var password = $('#password').val();
-            var url = '@Url.Action("Signin", "Account")?login=' + login + '&password=' + password;
+        <div class="btn-group" role="group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type='button' class="btn btn-primary btn-sm" id="signin" value='Sign In' />
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" class="btn btn-outline-info btn-sm" value="Sign Up" onclick="@("window.location.href='" + @Url.Action("create", "account") + "'");" />
+            </div>
+        </div>
 
-            $.post(url, function (result) {
-                if (result) {
-                    setTimeout(() => { window.location.replace('@Url.Action("Index", "Cargo")'); }, 1000);
-                    document.getElementById("info").innerHTML = "Welcome!";
-                }
-                else {
-                    document.getElementById("info").innerHTML = "Incorrect login or password.";
-                }
+        <div class="form-group">
+            <p></p>
+            <div class="col-md-4" id="info"></div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#signin').click(function (e) {
+                e.preventDefault();
+                var login = $('#login').val();
+                var password = $('#password').val();
+                var url = '@Url.Action("Signin", "Account")?login=' + login + '&password=' + password;
+
+                $.post(url, function (result) {
+                    if (result.isCreated) {
+                        localStorage.setItem("login", login);
+                        localStorage.setItem("token", result.token);
+                        setTimeout(() => {
+                            location.replace('@Url.Action("MainPage", "Account")?token=' + result.token);
+                        }, 1000);
+                        document.getElementById("info").innerHTML =
+                            `<div class="alert alert-success">Welcome!</div>`;
+                    }
+                    else {
+                        document.getElementById("info").innerHTML =
+                            `<div class="alert alert-danger">Incorrect login or password.</div>`;
+                    }
+                });
+
             });
-
         });
-    });
-</script>
+    </script>
+</body>

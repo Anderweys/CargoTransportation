@@ -1,9 +1,9 @@
-﻿using WebMVC.ViewModels;
+﻿using WebMVC.Models.DTOs;
 
-namespace WebMVC.Services
+namespace WebMVC.Services;
+
+public interface ICargoService
 {
-    public interface ICargoService
-    {
-        Task<Cargo> GetCargo();
-    }
+    Task AddItemsAsync(UserItemsDTO userItems);
+    Task<IEnumerable<CargoInfoDTO>?> GetCargoInfoAsync(string userId);
 }
