@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+
+  
+
+  webmvc:
+    image: ${DOCKER_REGISTRY-}webmvc
+    build:
+      context: .
+      dockerfile: Services/Web/WebMVC/Dockerfile
+    depends_on:
+    - cargo.api
+    - routing.api
+    - transport.api
+  
+  cargo.api:
+    image: ${DOCKER_REGISTRY-}cargoapi
+    build:
+      context: .
+      dockerfile: Services/Cargo/Cargo.API/Dockerfile
+
+  routing.api:
+    image: ${DOCKER_REGISTRY-}routingapi
+    build:
+      context: .
+      dockerfile: Services/Routing/Routing.API/Dockerfile
+
+  transport.api:
+    image: ${DOCKER_REGISTRY-}transportapi
+    build:
+      context: .
+      dockerfile: Services/Transportation/Transport.API/Transport.API/Dockerfile
+
