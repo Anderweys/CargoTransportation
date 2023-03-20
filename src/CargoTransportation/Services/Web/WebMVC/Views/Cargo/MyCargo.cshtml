@@ -1,0 +1,56 @@
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h3 class="text-dark">Cargo Transportation - My cargo</h3>
+        </div>
+        <p></p>
+        <dl class="row" id="listCargo">Loading cargo's list...</dl>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        function LoadItemsFromServer() {
+
+            $.ajax({
+                url: "@Url.Action("GetCargoInfo","Cargo")?token=" + localStorage.getItem("token"),
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (array) {
+                    var listCargo = "";
+                    if (!array) {
+                        listCargo = "No cargo yet";
+                    }
+                    else {
+                        for (var i = 0; i < array.length; i++) {
+                            var data = array[i];
+                            var items = `<dt class="col-sm-2 text-primary">` + (i + 1) + " cargo" + "</dt>";
+                            items += `<dd class="col-sm-2 text-primary"><dl class="row"><dt class="col-sm-2 text-primary">` + "city:" + `</dt><dd class="col-sm-6 text-primary">` + data.city + "</dd>";
+                            items += `<dt class="col-sm-2 text-primary">` + "time:" + `</dt><dd class="col-sm-6 text-primary">` + data.time + "</dd>";
+                            items += `<dt class="col-sm-2 text-primary">` + "price:" + `</dt><dd class="col-sm-6 text-primary">` + data.price + " $" + "</dd>";
+                            items += `<dt class="col-sm-2 text-primary">` + "items:" + `<dt class="col-sm-2 text-primary"><dd class="col-sm-6 text-primary"><dl class="row">`;
+                            for (var j = 0; j < data.items.length; j++) {
+                                var item = data.items[j];
+                                for (var key in item) {
+                                    var value = `<dt class="col-sm-2 text-primary">` + key + ":" + `</dt><dd class="col-sm-6 text-primary">` + item[key] + "</dd>";
+                                    items += value;
+                                }
+                            }
+                            listCargo += items + "</dd></dl>";
+                        }
+                    }
+
+                    $('#listCargo').html(listCargo);
+                }
+            });
+        }
+        setTimeout(() => { LoadItemsFromServer(); }, 600);
+    </script>
+</body>
