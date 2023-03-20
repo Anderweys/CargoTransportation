@@ -1,16 +1,16 @@
-﻿using CargoObject.Domain.AggregatesModel.LoaderAggragates;
-using CargoObject.Domain.Events;
+﻿using CargoObject.Domain.Events;
 using CargoObject.Domain.SeedWork;
 using System.Collections.ObjectModel;
 
 namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
-
 public class Cargo : Entity, IAggregateRoot
 {
-    public int LoaderId { get; private set; }
+    public string UserId { get; private set; }
     public string Name { get; private set; }
-    public string Description { get; private set; }
+    public string City { get; private set; }
+    public float Price { get; private set; }
+    public DateTime Time { get; private set; }
     public float CurrentVolume { get; private set; }
     public CargoType CargoType { get; private set; }
     private List<CargoItem> _cargoItems;
@@ -20,67 +20,57 @@ public class Cargo : Entity, IAggregateRoot
         _cargoItems = new List<CargoItem>();
     }
 
-    public Cargo(int id,                // Cargo.
-                 int loaderId,
-                 string name,
-                 string description,
-                 string cargoTypeName,  // CargoType.
-                 float size,            // CargoSize.
-                 float length,
-                 float width,
-                 float height,
-                 float maxTemperature,  // CargoProprety.
-                 float minTemperature,
-                 float maxPressure,
-                 float minPressure)
+    public Cargo(string userId, string name, string city, float money, DateTime time, CargoType cargoType)
     {
-        Id = id;
-        LoaderId = loaderId;
+        UserId = userId;
         Name = name;
-        Description = description;
-        CargoType = new(
-            cargoTypeName,
-            new CargoSize(size, length, width, height),
-            new CargoProperty(maxTemperature, minTemperature, maxPressure, minPressure)
-            );
-
+        City = city;
+        Price = money;
+        Time = time;
+        CargoType = cargoType;
         CurrentVolume = 0;
         _cargoItems = new List<CargoItem>();
     }
 
-    public void PlaceCargoItem(CargoItem item)
+    public void PlaceItem(string name, string description, float price, 
+        float length, float height, float width)
     {
-        if (HasFreePlace(item))
+
+        if (HasFreePlace(length, height, width))
         {
-            AddItem(item);
+            AddItem(new(name, description, price, length, width, height));
         }
     }
+
     public void RemoveCargoItemById(int id)
     {
         _cargoItems.RemoveAt(id);
     }
+
     public void LoadCargo()
     {
         var cargoPlacedDomainEvent = new CargoPlacedDomainEvent(
-                LoaderId,
+                UserId.Length,
                 $"A new cargo with items prepared for loading.\n" +
-                $"LoaderId: {LoaderId}\nId: {Id}",
+                $"LoaderId: {UserId}\nId: {Id}",
                 this,
                 DateTime.UtcNow);
 
         AddDomainEvent(cargoPlacedDomainEvent);
     }
 
-    public ReadOnlyCollection<CargoItem> CargoItems() => _cargoItems.AsReadOnly();
+    public List<CargoItem> CargoItems => _cargoItems.AsReadOnly().ToList();
 
     private void AddItem(CargoItem item)
     {
-        CurrentVolume += item.Volume;
+        CurrentVolume += item.Length * item.Height * item.Width;
         _cargoItems.Add(item);
     }
-    private bool HasFreePlace(CargoItem item)
+
+    private bool HasFreePlace(float length, float height, float width)
     {
-        if (CargoType.CargoSize.Volume < CurrentVolume + item.Volume)
+        var volume = length * height * width;
+        if (CargoType.CargoSize.Volume < CurrentVolume + volume)
         {
             return false;
         }
