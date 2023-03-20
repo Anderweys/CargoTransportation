@@ -13,11 +13,11 @@ public class CargoSize : ValueObject
     {
     }
 
-    public CargoSize(float length, float width, float heigth, float volume)
+    public CargoSize(float length, float width, float heigth)
     {
         Length = length;
         Width = width;
         Height = heigth;
-        Volume = volume;
+        Volume = length * width * heigth;
     }
 }
