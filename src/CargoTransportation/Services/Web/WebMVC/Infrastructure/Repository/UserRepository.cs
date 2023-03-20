@@ -1,41 +1,48 @@
 ﻿using WebMVC.Models;
+using MongoDB.Driver;
 
 namespace WebMVC.Infrastructure.Repository;
 
 public class UserRepository : IUserRepository
 {
-    // Fake DbContext.
-    private List<User> _users;
+    private readonly IMongoCollection<User> _users;
 
-    public UserRepository()
+    public UserRepository(IMongoDatabase mongoDatabase)
     {
-        _users= new List<User>()
-        {
-            new("admin", "1234")
-        };
+        _users = mongoDatabase.GetCollection<User>("Users");
+
+        // Add default user - admin.
+        InitData();
     }
 
-    public Task<bool> AddAsync(User user)
+    public async Task<bool> AddAsync(User user)
     {
-        var isExists = _users.Any(u => u.Login == user.Login);
+        var isExists = await _users
+            .Find(u => u.Login == user.Login)
+            .FirstOrDefaultAsync() is not null;
 
         if (isExists)
         {
-            return Task.FromResult(false);
+            return false;
         }
+        _users.InsertOne(user);
 
-        _users.Add(user);
-        return Task.FromResult(true);
+        return true;
     }
 
-    public Task<User> GetAsync(User user)
-    {
-        var result = _users.Find(u => u.Login == user.Login && u.Password == user.Password);
-        return Task.FromResult(result);
-    }
+    public async Task<User> GetAsync(User user)
+        => await _users
+            .Find(u => u.Login == user.Login && u.Password == user.Password)
+            .FirstOrDefaultAsync();
 
-    public Task<IEnumerable<User>> GetAllAsync()
+    private void InitData()
     {
-        return Task.FromResult<IEnumerable<User>>(_users);
+        var admin = new User()
+        {
+            Login = "admin",
+            Password ="123"
+        };
+
+        _users.InsertOne(admin);
     }
 }

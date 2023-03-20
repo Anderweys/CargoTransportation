@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
+using WebMVC.Infrastructure;
 
 namespace WebMVC.Controllers;
 
@@ -14,12 +17,19 @@ public class AccountController : Controller
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public IActionResult Index() => View();
 
+    [AllowAnonymous]
     [HttpGet]
     public IActionResult Create() => View();
 
+    [Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+    [HttpGet]
+    public IActionResult MainPage() => View();
+
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> SignIn([FromQuery] User user)
     {
@@ -31,12 +41,15 @@ public class AccountController : Controller
                 "User sign in.\n\tLogin: {Login}\n\tData: {DateTime}\n",
                 user.Login, DateTime.UtcNow);
 
-            return Ok(true);
+            var jwt = Authentication.CreateToken(user.Login);
+
+            return Ok(new { IsCreated = true, Token = new JwtSecurityTokenHandler().WriteToken(jwt) });
         }
 
-        return NoContent();
+        return Ok(new { IsCreated = false });
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Create([FromQuery] User user)
     {
