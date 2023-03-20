@@ -1,8 +1,47 @@
 version: '3.4'
 
 services:
+    
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
 
+  mongo:
+    image: mongo
+
+  redis:
+    image: redis
+
+  rabbitmq:
+    image: rabbitmq:3-management
   
+  cargo.api:
+    image: ${DOCKER_REGISTRY-}cargoapi
+    build:
+      context: .
+      dockerfile: Services/Cargo/Cargo.API/Dockerfile
+    depends_on:
+    - mssql
+    - redis
+    - rabbitmq
+
+  routing.api:
+    image: ${DOCKER_REGISTRY-}routingapi
+    build:
+      context: .
+      dockerfile: Services/Routing/Routing.API/Dockerfile
+    depends_on:
+    - mongo
+    - redis
+    - rabbitmq
+
+  transport.api:
+    image: ${DOCKER_REGISTRY-}transportapi
+    build:
+      context: .
+      dockerfile: Services/Transportation/Transport.API/Transport.API/Dockerfile
+    depends_on:
+    - mongo
+    - redis
 
   webmvc:
     image: ${DOCKER_REGISTRY-}webmvc
@@ -13,22 +52,5 @@ services:
     - cargo.api
     - routing.api
     - transport.api
-  
-  cargo.api:
-    image: ${DOCKER_REGISTRY-}cargoapi
-    build:
-      context: .
-      dockerfile: Services/Cargo/Cargo.API/Dockerfile
 
-  routing.api:
-    image: ${DOCKER_REGISTRY-}routingapi
-    build:
-      context: .
-      dockerfile: Services/Routing/Routing.API/Dockerfile
-
-  transport.api:
-    image: ${DOCKER_REGISTRY-}transportapi
-    build:
-      context: .
-      dockerfile: Services/Transportation/Transport.API/Transport.API/Dockerfile
-
+   # TODO: Add ApiGateway - Ocelot.
