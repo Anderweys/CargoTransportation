@@ -1,34 +1,118 @@
-﻿<h3>Cargo Transportation - Items catalog</h3>
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h3 class="text-dark">Cargo Transportation - Items catalog</h3>
+        </div>
 
-<table>
-    <tr>
-        <td><label>Name:</label></td>
-        <td><input type="text" id="name" /></td>
-    </tr>
-    <tr>
-        <td><label>Description:</label></td>
-        <td><input type="text" id="description" /></td>
-    </tr>
-    <tr>
-        <td><input type='button' id="addItem" value='Add' /></td>
-        <td><text id="addedItem"></text></td>
-    </tr>
-</table>
+        <div class="col-md-4 form-group">
+            <input type="text" id="name" class="form-control" placeholder="Name" />
+        </div>
 
-<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#addItem').click(function (e) {
-            e.preventDefault();
-            var name = "Name: " + $('#name').val() + "\n";
-            var description = "Description: " + $('#description').val() + "\n";
+        <div class="col-md-4 form-group">
+            <input type="text" id="description" class="form-control" placeholder="Description" />
+        </div>
 
-            var item = document.getElementById("addedItem");
+        <div class="col-md-4 form-group">
+            <input type="number" id="length" class="form-control" placeholder="Length" />
+        </div>
 
-            console.log(item);
-            item = item + name + description;
+        <div class="col-md-4 form-group">
+            <input type="number" id="width" class="form-control" placeholder="Width" />
+        </div>
 
-            document.getElementById("addedItem").innerHTML = item;
+        <div class="col-md-4 form-group">
+            <input type="number" id="height" class="form-control" placeholder="Height" />
+        </div>
+
+        <div class="col-md-4 form-group">
+            <input type="number" id="price" class="form-control" placeholder="Price" />
+        </div>
+
+        <div class="btn-group" role="group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type='button' class="btn btn-outline-secondary btn-sm" id="addItem" value='Add' />
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type='button' class="btn btn-primary btn-sm" id="ready" value='Ready' />
+            </div>
+        </div>
+        <p></p>
+        <dl class="row" id="itemList">
+        </dl>
+    </div>
+
+    <!-- Added item for trasportation. -->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#addItem').click(function (e) {
+                e.preventDefault();
+
+                var name = `<dt class="col-sm-3 text-primary">Name: </dt><dd class="col-sm-9 text-primary">` + $('#name').val() + "</dd>";
+                var description = `<dt class="col-sm-3">Description: </dt><dd class="col-sm-9">` + $('#description').val() + "</dd>";
+                var length = `<dt class="col-sm-3">Length: </dt><dd class="col-sm-9">` + $('#length').val() + "</dd>";
+                var width = `<dt class="col-sm-3">Width: </dt><dd class="col-sm-9">` + $('#width').val() + "</dd>";
+                var height = `<dt class="col-sm-3">Height: </dt><dd class="col-sm-9">` + $('#height').val() + "</dd>";
+                var price = `<dt class="col-sm-3">Price: </dt><dd class="col-sm-9">` + $('#price').val() + "</dd>";
+                var item = name + description + length + width + height + price;
+                var oldHtml = $('#itemList').html();
+                var html = oldHtml + item;
+
+                $('#itemList').html(html);
+            });
         });
-    });
-</script>
+    </script>
+
+    <!-- confirmation of the selected items and
+    sending them to the server for further stages of registration. -->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ready').click(function (e) {
+                e.preventDefault();
+                const countOfproperty = 6; // 6 - count of item's properties.
+                var dl = document.getElementById("itemList");
+                var items = dl.getElementsByTagName("dd");
+
+                const array = [];
+                var item = {};
+                var i = 0
+                while (i < items.length) {
+                    for (var j = 0; j < countOfproperty; j++, i++) {
+
+                        item[j] = items[i].textContent;
+                    }
+                    array.push(
+                        {
+                            "name": item[0],
+                            "description": item[1],
+                            "length": item[2],
+                            "width": item[3],
+                            "height": item[4],
+                            "price": item[5]
+                        });
+                }
+                $.ajax({
+                    url: "@Url.Action("PrepareAddedItems","Cargo")?token=" + localStorage.getItem("token"),
+                    type: 'POST',
+                    // Without this row your controller will not work and returns 415 code.
+                    // Don't listen to StackOverflow's advice that this is an optional element.
+                    contentType: "application/json; charset=utf-8", // <-- about this.
+                    data: JSON.stringify(array),
+                    success: function (data) {
+                        $('#itemList').html("Items added! Loading...");
+                        setTimeout(() => { window.location.replace('@Url.Action("Index", "Transport")?token=' + localStorage.getItem("token")); }, 300);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
