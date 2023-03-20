@@ -2,7 +2,6 @@
 
 namespace CargoObject.Domain.SeedWork;
 
-
 /// <summary>
 /// The base entity.
 /// </summary>

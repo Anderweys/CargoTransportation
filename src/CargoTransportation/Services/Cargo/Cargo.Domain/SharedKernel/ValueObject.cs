@@ -1,6 +1,5 @@
 ﻿namespace CargoObject.Domain.SeedWork;
 
-
 /// <summary>
 /// The base value object.
 /// </summary>
