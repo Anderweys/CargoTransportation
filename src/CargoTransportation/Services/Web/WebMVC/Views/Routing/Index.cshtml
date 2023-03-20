@@ -1,0 +1,126 @@
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h3 class="text-dark">Cargo Transportation - Routing</h3>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="cityDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Cities
+            </button>
+            <div class="dropdown-menu" aria-labelledby="cityDropDown" id="citiesDropdown">
+            </div>
+        </div>
+
+        <p></p>
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="city">City: not selected</label>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="time">Time: 00:00:00</label>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="items">Items: not selected</label>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <label class="text-secondary form-label" id="totalPrice">Total price: 0.00 $</label>
+        </div>
+
+        <div class="btn-group" role="group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type='button' class="btn btn-success btn-sm" id="confirm" value='Confirm' />
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        function SelectedCity(cityId) {
+            var data = {
+                "city": cityId
+            };
+
+            $.ajax({
+                url: "@Url.Action("SelectCity","Routing")?token=" + localStorage.getItem("token"),
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    var items = "";
+                    for (var i = 0; i < data.items.length; i++) {
+                        var item = data.items[i];
+                        for (var key in item) {
+                            var value = item[key] + " ";
+                            items += value;
+                        }
+                        items += ", ";
+                    }
+                    $('#city').html("City: " + data.city);
+                    $('#time').html("Time delivery: " + data.time);
+                    $('#items').html(items);
+                    $('#totalPrice').html("Totat price: " + data.price + " $");
+                }
+            });
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#confirm').click(function (e) {
+                e.preventDefault();
+                $('#info').html("Payment in progress...");
+                var data = {
+                    "city": document.getElementById("city").textContent.replace("City: ", ''),
+                    "money": document.getElementById("totalPrice").textContent.replace("Totat price: ", '').split(' ')[0].replace(',', '.'),
+                    "time": document.getElementById("time").textContent.replace("Time delivery: ", '')
+                };
+                console.log(data);
+                $.ajax({
+                    url: "@Url.Action("Confirm","Routing")?token=" + localStorage.getItem("token"),
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        setTimeout(() => { window.location.replace('@Url.Action("MainPage", "Account")?token=' + localStorage.getItem("token")); }, 1000);
+                        $('#info').html("Payment completed!");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Load available cities.-->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        function LoadCities() {
+            $.ajax({
+                url: "@Url.Action("LoadCities","Routing")?token=" + localStorage.getItem("token"),
+                type: 'GET',
+                success: function (data) {
+                    $('#citiesDropdown').empty();
+                    for (var key in data) {
+                        var temp = data[key];
+                        let item = temp["name"];
+                        var value = `<button id="${item}" onclick="SelectedCity(this.id)" class="dropdown-item" type = "button">${item}</button>`;
+
+                        $('#citiesDropdown').append(value);
+                    }
+                }
+            });
+        }
+        LoadCities();
+    </script>
+</body>
