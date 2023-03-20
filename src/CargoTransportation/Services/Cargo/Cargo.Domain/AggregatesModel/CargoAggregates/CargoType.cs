@@ -2,23 +2,20 @@
 
 namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
-
-public class CargoType : ValueObject
+public class CargoType : Entity
 {
     public string TypeName { get; private set; }
     public CargoSize CargoSize { get; private set; }
     public CargoProperty CargoProperty { get; private set; }
 
-
     public CargoType()
     {
     }
 
-    public CargoType(string typeName, CargoSize cargoSize, CargoProperty cargoProperty)
+    public CargoType(int id, string typeName)
     {
+        Id = id;
         TypeName = typeName;
-        CargoSize = cargoSize;
-        CargoProperty = cargoProperty;
     }
 }
 
