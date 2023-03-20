@@ -1,28 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebMVC.Models;
 using WebMVC.Services;
+using WebMVC.Models.DTOs;
+using WebMVC.Infrastructure;
 
 namespace WebMVC.Controllers;
 
+[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
 public class CargoController : Controller
 {
-    private readonly ILogger<CargoController> _logger;
-    private ICargoService _cargoService;
+    private readonly ICargoService _cargoService;
 
-    public CargoController(ILogger<CargoController> logger, ICargoService cargoService)
+    public CargoController(ICargoService cargoService)
     {
-        _logger=logger;
-        _cargoService=cargoService;
+        _cargoService=cargoService ?? throw new ArgumentNullException(nameof(cargoService));
     }
 
+    [HttpGet]
     public IActionResult Index() => View();
 
-    [HttpPost]
-    public async Task<IActionResult> Index([FromForm] User user)
-    {
-        var cargo = await _cargoService.GetCargo();
-        _logger.LogInformation($"Query in CargoController: {user.Login}");
+    [HttpGet]
+    public IActionResult MyCargo() => View();
 
-        return Ok(cargo);
+    [HttpPost]
+    public async Task<IActionResult> PrepareAddedItems([FromBody] List<Item> items, [FromQuery] string token)
+    {
+        var userId = Authentication.ParseToken(token);
+        var userItems = new UserItemsDTO(userId, items);
+
+        await _cargoService.AddItemsAsync(userItems);
+
+        return Accepted();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetCargoInfo([FromQuery] string token)
+    {
+        var userId = Authentication.ParseToken(token);
+        var cargoInfo = await _cargoService.GetCargoInfoAsync(userId);
+
+        return Ok(cargoInfo);
     }
 }
+
