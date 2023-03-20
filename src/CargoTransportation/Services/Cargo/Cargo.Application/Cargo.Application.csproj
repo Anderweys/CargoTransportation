@@ -7,19 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationEvent\EventHandling\" />
+    <Compile Remove="IntegrationEvents\EventHandling\**" />
+    <EmbeddedResource Remove="IntegrationEvents\EventHandling\**" />
+    <None Remove="IntegrationEvents\EventHandling\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="8.0.13-develop.995" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.13-develop.995" />
-    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0-preview.1.23110.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cargo.Domain\Cargo.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DomainEventHandlers\" />
   </ItemGroup>
 
 </Project>
