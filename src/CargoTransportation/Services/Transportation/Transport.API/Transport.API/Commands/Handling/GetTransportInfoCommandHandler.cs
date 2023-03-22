@@ -32,32 +32,55 @@ public class GetTransportInfoCommandHandler : IRequestHandler<GetTransportInfoCo
 
     public async Task<TransportInfoDTO> Handle(GetTransportInfoCommand request, CancellationToken cancellationToken)
     {
-        var userItemsString = await _cache.GetStringAsync(request.UserId);
+        try
+        {
+            var userItemsString = await _cache.GetStringAsync(request.UserId);
 
-        if (userItemsString is null)
+            if (userItemsString is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var items = JsonSerializer.Deserialize<IEnumerable<ItemDTO>>(userItemsString);
+            var price = _calculationPrice.CalculatePrice(request.TransportType, items);
+
+            var transport = await _transportRepository.GetAsync(request.TransportName, request.TransportType);
+
+            // Save total price for Routing Service. It need for calculate total price.
+            var command = new SetItemsTotalPriceCommand(price, request.UserId, transport.Type, transport.AverageSpeed);
+            await _mediator.Send(command);
+
+            return new TransportInfoDTO(
+                request.TransportType,
+                items.Count(),
+                price);
+        }
+        catch (ArgumentNullException e)
         {
             _logger.LogCritical(
-                "No cache items data. Command Handler: {handler} Maybe problems:\n" +
+                "Delivery info was not created." +
+                "No cache items data. Maybe problems:\n" +
                 "\t- Out data lifetime.\n" +
                 "\t- Code not added data in cache.\n" +
-                "\t- Distributed cache service is dead.\n",
-                nameof(GetTransportInfoCommandHandler));
-
-            throw new ArgumentNullException("No data in cache.");
+                "\t- Distributed cache service is dead.\n" +
+                " \n\tCommand handler: {handler},\n\tException: {e}, message: {m}, stack trace: {st},\n\t Time: {time}.",
+                nameof(ArgumentNullException),
+                e.Message,
+                e.StackTrace,
+                nameof(GetUserItemsCommandHandler),
+                DateTime.UtcNow.ToLongDateString());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                "Error when appearing to the external services (Redis, Mongo etc.)." +
+                "\n\tCommand handler: {handler},\n\tException: {mes}, stack trace: {st},\n\tTime: {time}.",
+                nameof(GetUserItemsCommandHandler),
+                ex.Message,
+                ex.StackTrace,
+                DateTime.UtcNow.ToLongDateString());
         }
 
-        var items = JsonSerializer.Deserialize<IEnumerable<ItemDTO>>(userItemsString);
-        var price = _calculationPrice.CalculatePrice(request.TransportType, items);
-
-        var transport = await _transportRepository.GetAsync(request.TransportName, request.TransportType);
-
-        // Save total price for Routing Service. It need for calculate total price.
-        var command = new SetItemsTotalPriceCommand(price, request.UserId, transport.Type, transport.AverageSpeed);
-        await _mediator.Send(command);
-
-        return new TransportInfoDTO(
-            request.TransportType,
-            items.Count(),
-            price);
+        return new ("", 0, 0.0f);
     }
 }
