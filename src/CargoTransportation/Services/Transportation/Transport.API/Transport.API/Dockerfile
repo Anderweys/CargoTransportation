@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Services/Transportation/Transport.API/Transport.API/Transport.API.csproj", "Services/Transportation/Transport.API/Transport.API/"]
-RUN dotnet restore "Services/Transportation/Transport.API/Transport.API/Transport.API.csproj"
+COPY ["Services/Transportation/Transport.API/Transport.API/Transportation.API.csproj", "Services/Transportation/Transport.API/Transport.API/"]
+RUN dotnet restore "Services/Transportation/Transport.API/Transport.API/Transportation.API.csproj"
 COPY . .
 WORKDIR "/src/Services/Transportation/Transport.API/Transport.API"
-RUN dotnet build "Transport.API.csproj" -c Release -o /app/build
+RUN dotnet build "Transportation.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Transport.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Transportation.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Transport.API.dll"]
+ENTRYPOINT ["dotnet", "Transportation.API.dll"]
