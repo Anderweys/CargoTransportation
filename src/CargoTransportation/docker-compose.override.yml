@@ -3,69 +3,91 @@ version: '3.4'
 services:
 
   mssql:
+    container_name: mssql
     environment:
       - SA_PASSWORD=qwerty@123
       - ACCEPT_EULA=Y
       - MSSQL_PID=Express
     ports:
       - "5433:1433"
+    expose:
+      - "1433"
     volumes:
-      - ct-mssql:/var/opt/mssql
+      - mssql:/var/opt/mssql
 
   mongo:
+    container_name: mongo
     ports:
-      - "27017:27017"
+      - "27018:27017"
+    expose:
+      - "27017"
     volumes:
-      - ct-mongo:/data/db
+      - mongo:/data/db
 
   redis:
+    container_name: redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
+    expose:
+      - "6379"
     volumes:
-      - ct-redis:/data
+      - redis:/data
 
   rabbitmq:
+    container_name: rabbitmq
     ports:
       - "15672:15672"
-      - "5672:5672"
-  
+    expose:
+      - "5672"
     
   cargo.api:
+    container_name: cargo
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
-    ports:
-      - "80"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-  routing.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-    ports:
-      - "80"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - mssql
+      - rabbitmq
+      - redis
 
-  transport.api:
+  routing.api:
+    container_name: routing
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https:http://+:80
-    ports:
-      - "80"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - mongo
+      - rabbitmq
+      - redis
+
+  transportation.api:
+    container_name: transportation
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - mongo
+      - redis
 
   webmvc:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=7242
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=qwerty@123 #<-- So this isn't a good idea in your real project.
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/webmvc_c.pfx
     ports:
-      - "80"
-      - "443"
+      - "5080:80"
+      - "7242:443" #<-- Project endpoint.
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https/
+    depends_on:
+      - mongo
+
+volumes:
+  mssql:
+    external: false
+  mongo:
+    external: false
+  redis:
+    external: false

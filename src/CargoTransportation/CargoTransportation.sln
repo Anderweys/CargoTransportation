@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A2AE8225-48E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{CA0C1939-1688-4E1A-BE27-5B627CD9D7EE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CargoObject", "CargoObject", "{E44760B8-2ACF-4AB8-9355-7035DCDB999D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cargo", "Cargo", "{E44760B8-2ACF-4AB8-9355-7035DCDB999D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transportation", "Transportation", "{D6100462-4AF7-4EBD-B57B-BBE07E3EAD00}"
 EndProject
@@ -31,15 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B0266F34-EBE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "Services\Web\WebMVC\WebMVC.csproj", "{0B794C37-85DF-49C6-8D28-9230A35536CD}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8A092EA8-A44D-4B32-820C-108B05496282}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routing.UnitTests", "Services\Routing\Routing.UnitTests\Routing.UnitTests.csproj", "{729B6C12-D7E6-480C-9FB8-43EA78FE9A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transportation.UnitTests", "Services\Transportation\Transportation.UnitTests\Transportation.UnitTests.csproj", "{10A7C6F8-6682-4480-83DA-49B7ECA0C73E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transportation.UnitTests", "Services\Transportation\Transportation.UnitTests\Transportation.UnitTests.csproj", "{10A7C6F8-6682-4480-83DA-49B7ECA0C73E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{B9A83A24-AC48-4950-952D-75C484B9DF74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway\ApiGateway.csproj", "{70EE2C60-8049-4D6E-9EE3-FDFD5C35ABFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "ApiGateway\ApiGateway\ApiGateway.csproj", "{70EE2C60-8049-4D6E-9EE3-FDFD5C35ABFC}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2F3BE13C-342E-423C-A31D-6B1612ABCB17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,10 +79,6 @@ Global
 		{0B794C37-85DF-49C6-8D28-9230A35536CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B794C37-85DF-49C6-8D28-9230A35536CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B794C37-85DF-49C6-8D28-9230A35536CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A092EA8-A44D-4B32-820C-108B05496282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A092EA8-A44D-4B32-820C-108B05496282}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A092EA8-A44D-4B32-820C-108B05496282}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A092EA8-A44D-4B32-820C-108B05496282}.Release|Any CPU.Build.0 = Release|Any CPU
 		{729B6C12-D7E6-480C-9FB8-43EA78FE9A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{729B6C12-D7E6-480C-9FB8-43EA78FE9A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729B6C12-D7E6-480C-9FB8-43EA78FE9A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,6 +91,10 @@ Global
 		{70EE2C60-8049-4D6E-9EE3-FDFD5C35ABFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70EE2C60-8049-4D6E-9EE3-FDFD5C35ABFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70EE2C60-8049-4D6E-9EE3-FDFD5C35ABFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F3BE13C-342E-423C-A31D-6B1612ABCB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F3BE13C-342E-423C-A31D-6B1612ABCB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F3BE13C-342E-423C-A31D-6B1612ABCB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F3BE13C-342E-423C-A31D-6B1612ABCB17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
