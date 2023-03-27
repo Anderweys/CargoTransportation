@@ -28,18 +28,38 @@ public class CargoService : ICargoService
     {
         var uri = API.Cargo.AddItems(_remoteServiceUrl);
         var userItemsContent = new StringContent(JsonSerializer.Serialize(userItems), System.Text.Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync(uri, userItemsContent);
 
-        if (response.StatusCode == HttpStatusCode.BadRequest)
+        try
+        {
+            var response = await _httpClient.PostAsync(uri, userItemsContent);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            { 
+                throw new InvalidOperationException();
+            }
+
+            response.EnsureSuccessStatusCode();
+        }
+        catch (InvalidOperationException)
         {
             _logger.LogCritical(
-                "Error adding items. Service:{service} Time: {Time}.",
+                    "Cannot add items. Service:{service} Time: {Time}.",
+                    nameof(CargoService),
+                    DateTime.UtcNow.ToLongDateString());
+        }
+        catch (HttpRequestException)
+        {
+            _logger.LogError(
+                    "Microservice Cargo is dead. Service:{service} Time: {Time}.",
+                    nameof(CargoService),
+                    DateTime.UtcNow.ToLongDateString());
+        }
+        catch (JsonException)
+        {
+            _logger.LogCritical(
+                "Cannot read json-response. Service: {service}, Time: {time}.",
                 nameof(CargoService),
                 DateTime.UtcNow.ToLongDateString());
-        }
-        else
-        {
-            response.EnsureSuccessStatusCode();
         }
     }
 
