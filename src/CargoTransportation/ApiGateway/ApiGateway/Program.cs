@@ -1,13 +1,15 @@
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
-// In LaunchSettings was commented docker config.
-// For docker up need uncomment.
-
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Configuration.AddJsonFile("ocelot.json", false, true);
 builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddControllers();
+
 var app = builder.Build();
+
+app.MapControllers();
 
 await app.UseOcelot();
 
