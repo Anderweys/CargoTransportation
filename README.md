@@ -21,3 +21,5 @@ Also used:
 - Domain-Driven Design - Eric Evans,
 - Implementing Domain-Driven Design - Vaughn Vernon,
 - .NET Microservices: Architecture for Containerized .NET Applications - Microsoft.
+## Сode usage
+You can safely use the developments from this application for the purpose of self-development!
