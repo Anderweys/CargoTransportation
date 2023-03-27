@@ -1,5 +1,7 @@
 version: '3.4'
 
+name: cargo-transportation-prod
+
 services:
 
   mssql:
@@ -42,6 +44,7 @@ services:
     
   cargo.api:
     container_name: cargo
+    hostname: cargo
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
@@ -52,6 +55,7 @@ services:
 
   routing.api:
     container_name: routing
+    hostname: routing
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
@@ -62,6 +66,7 @@ services:
 
   transportation.api:
     container_name: transportation
+    hostname: transportation
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
@@ -69,7 +74,18 @@ services:
       - mongo
       - redis
 
+  apigateway:
+    container_name: ocelot
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - cargo.api
+      - transportation.api
+      - routing.api
+
   webmvc:
+    container_name: webmvc
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
@@ -78,10 +94,11 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/webmvc_c.pfx
     ports:
       - "5080:80"
-      - "7242:443" #<-- Project endpoint.
+      - "7242:443" #<-- Project endpoint: https://localhost:7242/account/index.
     volumes:
       - ${USERPROFILE}/.aspnet/https:/https/
     depends_on:
+      - apigateway
       - mongo
 
 volumes:

@@ -1,51 +1,38 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gate/account/{action}",
+      "UpstreamPathTemplate": "/api/cargo/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/account/{action}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/v1/cargo/{action}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7242
-        }
-      ]
-
-    },
-    {
-      "UpstreamPathTemplate": "/gate/cargo/{action}",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/cargo/{action}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7242
+          "Host": "cargo.api",
+          "Port": 80
         }
       ]
     },
     {
-      "UpstreamPathTemplate": "/gate/transport/{action}",
+      "UpstreamPathTemplate": "/api/transport/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/transport/{action}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/v1/transport/{action}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7242
+          "Host": "transportation.api",
+          "Port": 80
         }
       ]
     },
     {
-      "UpstreamPathTemplate": "/gate/routing/{action}",
+      "UpstreamPathTemplate": "/api/routing/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/routing/{action}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/v1/routing/{action}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7242
+          "Host": "routing.api",
+          "Port": 80
         }
       ]
     }
