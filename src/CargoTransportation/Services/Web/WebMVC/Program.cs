@@ -15,10 +15,6 @@ builder.Services.AddAuthentication("Bearer")
         option.TokenValidationParameters = Authentication.GetValidationParameters();
     })
     .AddScheme<AuthenticateJwtOptions, AuthenticateJwtHandler>("AuthenticateJwt", null);
-builder.WebHost.UseKestrel(opt =>
-{
-    opt.ListenAnyIP(7242, cfg => cfg.UseHttps());
-});
 var app = builder.Build();
 
 app.UseAuthentication();
