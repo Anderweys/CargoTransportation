@@ -25,17 +25,20 @@ services:
       context: .
       dockerfile: Services/Transportation/Transport.API/Transport.API/Dockerfile
 
-
   routing.api:
     image: ${DOCKER_REGISTRY-}routingapi
     build:
       context: .
       dockerfile: Services/Routing/Routing.API/Dockerfile
 
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/ApiGateway/Dockerfile
 
   cargo.api:
     image: ${DOCKER_REGISTRY-}cargoapi
     build:
       context: .
       dockerfile: Services/Cargo/Cargo.API/Dockerfile
-
