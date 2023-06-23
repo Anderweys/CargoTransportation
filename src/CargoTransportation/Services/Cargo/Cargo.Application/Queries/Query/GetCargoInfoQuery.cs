@@ -2,19 +2,19 @@
 using CargoObject.Application.Models;
 using System.Runtime.Serialization;
 
-namespace CargoObject.Application.Commands.Command;
+namespace CargoObject.Application.Queries.Query;
 
 [DataContract]
-public class GetCargoInfoCommand : IRequest<IEnumerable<CargoInfo>>
+public class GetCargoInfoQuery : IRequest<IEnumerable<CargoInfo>>
 {
     [DataMember]
     public string UserId { get; init; }
 
-    public GetCargoInfoCommand()
+    public GetCargoInfoQuery()
     {
     }
 
-    public GetCargoInfoCommand(string userId)
+    public GetCargoInfoQuery(string userId)
     {
         UserId = userId;
     }

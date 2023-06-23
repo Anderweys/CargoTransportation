@@ -1,20 +1,20 @@
 ﻿using MediatR;
 using CargoObject.Application.Models;
-using CargoObject.Application.Commands.Command;
 using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Application.Queries.Query;
 
-namespace CargoObject.Application.Commands.Handler;
+namespace CargoObject.Application.Queries.Handler;
 
-public class GetCargoInfoCommandHandler : IRequestHandler<GetCargoInfoCommand, IEnumerable<CargoInfo>>
+public class GetCargoInfoQueryHandler : IRequestHandler<GetCargoInfoQuery, IEnumerable<CargoInfo>>
 {
     private readonly ICargoRepository _cargoRepository;
 
-    public GetCargoInfoCommandHandler(ICargoRepository cargoRepository)
+    public GetCargoInfoQueryHandler(ICargoRepository cargoRepository)
     {
-        _cargoRepository=cargoRepository ?? throw new ArgumentNullException(nameof(cargoRepository));
+        _cargoRepository = cargoRepository ?? throw new ArgumentNullException(nameof(cargoRepository));
     }
 
-    public async Task<IEnumerable<CargoInfo>> Handle(GetCargoInfoCommand request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<CargoInfo>> Handle(GetCargoInfoQuery request, CancellationToken cancellationToken)
     {
         var cargos = await _cargoRepository.GetByUserIdAsync(request.UserId);
 
