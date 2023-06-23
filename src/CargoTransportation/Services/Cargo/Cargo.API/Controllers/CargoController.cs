@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using CargoObject.Application.Commands.Command;
+using CargoObject.Application.Queries.Query;
 
 namespace CargoObject.API.Controllers;
 
@@ -36,11 +37,11 @@ public class CargoController : ControllerBase
     }
 
     [HttpGet("GetCargoInfo")]
-    public async Task<IActionResult> GetCargoInfo([FromQuery] GetCargoInfoCommand command)
+    public async Task<IActionResult> GetCargoInfo([FromQuery] GetCargoInfoQuery query)
     {
         // It's maybe null, because user may haven't any cargo.
-        var commandResult = await _mediator.Send(command);
+        var queryResult = await _mediator.Send(query);
 
-        return Ok(commandResult);
+        return Ok(queryResult);
     }
 }
