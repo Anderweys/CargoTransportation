@@ -4,6 +4,9 @@ services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
+  postgres:
+    image: postgres
+
   mongo:
     image: mongo
 
@@ -12,6 +15,15 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management 
+  
+  nginx:
+    image: nginx
+  
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/ApiGateway/Dockerfile
 
   webmvc:
     image: ${DOCKER_REGISTRY-}webmvc
@@ -31,14 +43,15 @@ services:
       context: .
       dockerfile: Services/Routing/Routing.API/Dockerfile
 
-  apigateway:
-    image: ${DOCKER_REGISTRY-}apigateway
-    build:
-      context: .
-      dockerfile: ApiGateway/ApiGateway/Dockerfile
-
   cargo.api:
     image: ${DOCKER_REGISTRY-}cargoapi
     build:
       context: .
       dockerfile: Services/Cargo/Cargo.API/Dockerfile
+
+  account.api:
+    image: ${DOCKER_REGISTRY-}accountapi
+    build:
+      context: .
+      dockerfile: Services/Account/Account.API/Dockerfile
+
