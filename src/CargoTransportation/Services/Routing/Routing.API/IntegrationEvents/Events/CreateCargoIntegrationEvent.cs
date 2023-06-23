@@ -1,4 +1,4 @@
-﻿using Routing.API.Models;
+﻿using Routing.API.Application.Models;
 
 /// <summary>
 ///                          DISCLAIMER:
