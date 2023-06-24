@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
 using WebMVC.Services;
 using WebMVC.ViewModels;
@@ -7,7 +6,8 @@ using WebMVC.Infrastructure;
 
 namespace WebMVC.Controllers;
 
-[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+// Old version.
+//[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
 public class RoutingController : Controller
 {
     private readonly IRoutingService _routingService;
