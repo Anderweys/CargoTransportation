@@ -9,6 +9,7 @@ public static class HttpClientServiceExtension
         services.AddHttpClient<ICargoService, CargoService>();
         services.AddHttpClient<ITransportService, TransportService>();
         services.AddHttpClient<IRoutingService, RoutingService>();
+        services.AddHttpClient<IAccountService, AccountService>();
 
         return services;
     }
