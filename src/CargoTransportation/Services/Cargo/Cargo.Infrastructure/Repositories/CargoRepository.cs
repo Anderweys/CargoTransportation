@@ -18,7 +18,7 @@ public class CargoRepository : ICargoRepository
 
         if (result.Entity is null)
         {
-
+            return new Cargo();
         }
 
         await _context.SaveChangesAsync();

@@ -3,18 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
 using WebMVC.Infrastructure;
+using WebMVC.Services;
 
 namespace WebMVC.Controllers;
 
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountService _accountService;
 
-    public AccountController(ILogger<AccountController> logger, IUserRepository userRepository)
+    public AccountController(ILogger<AccountController> logger, IAccountService accountService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
     }
 
     [AllowAnonymous]
@@ -25,7 +26,8 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Create() => View();
 
-    [Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+    // Old version.
+    //[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
     [HttpGet]
     public IActionResult MainPage() => View();
 
@@ -33,7 +35,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> SignIn([FromQuery] User user)
     {
-        var result = await _userRepository.GetAsync(user);
+        var result = await _accountService.GetAsync(user);
 
         if (result is not null)
         {
@@ -53,7 +55,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromQuery] User user)
     {
-        var isCreated = await _userRepository.AddAsync(user);
+        var isCreated = await _accountService.AddAsync(user);
 
         if (isCreated)
         {

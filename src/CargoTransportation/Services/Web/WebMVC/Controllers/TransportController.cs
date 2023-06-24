@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
 using WebMVC.Services;
 using WebMVC.Infrastructure;
@@ -7,7 +6,8 @@ using WebMVC.Models.DTOs;
 
 namespace WebMVC.Controllers;
 
-[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+// Old version.
+//[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
 public class TransportController : Controller
 {
     private readonly ITransportService _transportService;

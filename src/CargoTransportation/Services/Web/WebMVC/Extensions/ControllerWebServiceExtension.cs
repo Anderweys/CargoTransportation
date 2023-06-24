@@ -9,5 +9,6 @@ public static class ControllerWebServiceExtension
         services.AddSingleton<ICargoService, CargoService>();
         services.AddSingleton<ITransportService, TransportService>();
         services.AddSingleton<IRoutingService, RoutingService>();
+        services.AddSingleton<IAccountService, AccountService>();
     }
 }

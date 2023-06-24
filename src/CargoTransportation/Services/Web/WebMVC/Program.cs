@@ -1,24 +1,30 @@
+// Old version. Now this application use HTTP.
+//#define USEHTTPS
+
 using WebMVC.Extensions;
+#if USEHTTPS
 using WebMVC.Schemes.AuthenticateJwt;
-using WebMVC.Infrastructure;
+#endif
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClientServices();
-builder.Services.AddRepositoryService();
-builder.Services.AddMongo(builder.Configuration.GetSection("Mongo"));
 builder.Services.AddControllerWebServices();
+#if USEHTTPS
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(option =>
     {
         option.TokenValidationParameters = Authentication.GetValidationParameters();
     })
     .AddScheme<AuthenticateJwtOptions, AuthenticateJwtHandler>("AuthenticateJwt", null);
+#endif
 var app = builder.Build();
 
+#if USEHTTPS
 app.UseAuthentication();
 app.UseAuthorization();
+#endif
 
 if (app.Environment.IsDevelopment())
 {

@@ -18,8 +18,4 @@
     <PackageReference Include="StackExchange.Redis" Version="2.6.96" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IntegrationEvents\" />
-  </ItemGroup>
-
 </Project>

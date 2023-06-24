@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Routing.API.Commands;
+using Routing.API.Application.Commands;
+using Routing.API.Application.Queries;
 
 namespace Routing.API.Controllers;
 
@@ -18,21 +19,21 @@ public class RoutingController : ControllerBase
     }
 
     [HttpGet("GetDeliveryInfo")]
-    public async Task<IActionResult> GetDeliveryInfo([FromQuery] GetDeliveryInfoCommand command)
+    public async Task<IActionResult> GetDeliveryInfo([FromQuery] GetDeliveryInfoQuery query)
     {
-        var commandResult = await _mediator.Send(command);
+        var queryResult = await _mediator.Send(query);
 
-        if (commandResult is null)
+        if (queryResult is null)
         {
             _logger.LogCritical(
-                "Error in command: {command}, User id: {userId}",
-                nameof(command),
-                command.UserId);
+                "Error in query: {query}, User id: {userId}",
+                nameof(query),
+                query.UserId);
 
             return BadRequest();
         }
 
-        return Ok(commandResult);
+        return Ok(queryResult);
     }
 
     [HttpPost("ConfirmCargoDelivery")]
@@ -54,20 +55,20 @@ public class RoutingController : ControllerBase
     }
 
     [HttpGet("LoadCities")]
-    public async Task<IActionResult> LoadCities([FromQuery] LoadCitiesCommand command)
+    public async Task<IActionResult> LoadCities([FromQuery] LoadCitiesQuery query)
     {
-        var commandResult = await _mediator.Send(command);
+        var queryResult = await _mediator.Send(query);
 
-        if (commandResult is null)
+        if (queryResult is null)
         {
             _logger.LogCritical(
-                "Error in service: {service}, command: {command}",
-                nameof(command),
+                "Error in service: {service}, query: {query}",
+                nameof(query),
                 nameof(RoutingController));
 
             return BadRequest();
         }
 
-        return Ok(commandResult);
+        return Ok(queryResult);
     }
 }

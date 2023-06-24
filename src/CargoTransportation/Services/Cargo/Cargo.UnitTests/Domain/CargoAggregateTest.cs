@@ -1,6 +1,10 @@
 ﻿namespace CargoObject.UnitTests.Domain;
 
-
+/*          WARNING
+ *          
+ *  It's old test. 
+ *  They don't work!
+*/
 public class CargoAggregateTest
 {
     public CargoAggregateTest()

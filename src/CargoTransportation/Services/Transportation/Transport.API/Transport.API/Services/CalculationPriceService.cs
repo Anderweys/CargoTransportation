@@ -1,4 +1,4 @@
-﻿using Transportation.API.Models.DTOs;
+﻿using Transportation.API.Application.Models.DTOs;
 
 namespace Transportation.API.Services;
 

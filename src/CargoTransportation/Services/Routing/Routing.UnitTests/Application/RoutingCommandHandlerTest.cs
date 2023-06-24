@@ -1,4 +1,7 @@
-﻿namespace Transportation.UnitTests.Application;
+﻿using Routing.API.Application.Models.DTOs;
+using Routing.API.Application.Queries;
+
+namespace Transportation.UnitTests.Application;
 
 public class TransportCommandHandlerTest
 {
@@ -7,7 +10,7 @@ public class TransportCommandHandlerTest
     {
         // Arrange.
         var mediator = new Mock<IMediator>();
-        var command = new LoadCitiesCommand();
+        var command = new LoadCitiesQuery();
 
         mediator
             .Setup(m => m

@@ -1,5 +1,5 @@
 ﻿using MongoDB.Driver;
-using Routing.API.Models;
+using Routing.API.Application.Models;
 
 namespace Routing.API.Infrastructure.Repositories;
 

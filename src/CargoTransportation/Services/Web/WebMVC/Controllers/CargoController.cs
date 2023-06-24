@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebMVC.Models;
 using WebMVC.Services;
 using WebMVC.Models.DTOs;
@@ -7,7 +6,8 @@ using WebMVC.Infrastructure;
 
 namespace WebMVC.Controllers;
 
-[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+// Old version.
+//[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
 public class CargoController : Controller
 {
     private readonly ICargoService _cargoService;

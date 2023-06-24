@@ -1,5 +1,5 @@
-﻿using Routing.API.Models;
-using Routing.API.Infrastructure.Repositories;
+﻿using Routing.API.Infrastructure.Repositories;
+using Routing.API.Application.Models;
 
 namespace Routing.API.Infrastructure.Extensions;
 

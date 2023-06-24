@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MongoDB.Driver;
-using Transportation.API.Models;
+using Transportation.API.Application.Models;
 
 namespace Transportation.API.Infrastructure.Repositories;
 
