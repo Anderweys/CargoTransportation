@@ -1,5 +1,5 @@
-﻿using Transportation.API.Models;
-using Transportation.API.Infrastructure.Repositories;
+﻿using Transportation.API.Infrastructure.Repositories;
+using Transportation.API.Application.Models;
 
 namespace Transportation.API.Infrastructure.Extensions;
 
