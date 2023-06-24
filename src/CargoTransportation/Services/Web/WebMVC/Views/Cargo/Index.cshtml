@@ -20,15 +20,15 @@
         </div>
 
         <div class="col-md-4 form-group">
-            <input type="number" id="length" class="form-control" placeholder="Length" />
+            <input type="number" id="length" class="form-control" placeholder="Length" min="1" max="10" step="0.1" onkeyup="if(value<1) value=1;if(value>10) value=10;" />
         </div>
 
         <div class="col-md-4 form-group">
-            <input type="number" id="width" class="form-control" placeholder="Width" />
+            <input type="number" id="width" class="form-control" placeholder="Width" min="1" max="3" step="0.1" onkeyup="if(value<1) value=1;if(value>3) value=3;" />
         </div>
 
         <div class="col-md-4 form-group">
-            <input type="number" id="height" class="form-control" placeholder="Height" />
+            <input type="number" id="height" class="form-control" placeholder="Height" min="1" max="3" step="0.1" onkeyup="if(value<1) value=1;if(value>3) value=3;" />
         </div>
 
         <div class="col-md-4 form-group">
@@ -74,7 +74,6 @@
     sending them to the server for further stages of registration. -->
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <script type="text/javascript">
-
         $(document).ready(function () {
             $('#ready').click(function (e) {
                 e.preventDefault();
@@ -112,7 +111,7 @@
                         setTimeout(() => { window.location.replace('@Url.Action("Index", "Transport")?token=' + localStorage.getItem("token")); }, 300);
                     }
                 });
-            });
+            }); 20
         });
     </script>
 </body>
