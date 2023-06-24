@@ -1,13 +1,16 @@
-﻿namespace Transportation.UnitTests.Application;
+﻿using Transportation.API.Application.Models.DTOs;
+using Transportation.API.Application.Queries.Query;
 
-public class TransportCommandHandlerTest
+namespace Transportation.UnitTests.Application;
+
+public class TransportCommandQueryHandlerTest
 {
     [Fact]
-    public async Task Handler_command_get_transport_type_when_types_is_not_null()
+    public async Task Handler_query_get_transport_type_when_types_is_not_null()
     {
         // Arrange.
         var mediator = new Mock<IMediator>();
-        var command = new GetTransportTypeCommand();
+        var command = new GetTransportTypeQuery();
 
         mediator
             .Setup(m => m
@@ -26,7 +29,7 @@ public class TransportCommandHandlerTest
     {
         // Arrange.
         var mediator = new Mock<IMediator>();
-        var command = new GetUserItemsCommand();
+        var command = new GetUserItemsQuery();
 
         mediator
             .Setup(m => m
