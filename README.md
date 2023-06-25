@@ -30,8 +30,12 @@ After that, you need to wait until all the containers are assembled and launched
 If everything works, the start screen should appear. The application generates an account by default for testing: 
 - login: `admin`
 - password: `123`<br />
-Of course, you can also create your own account.<br />
-After authorization, you should be transferred to the main screen. Thus, we can conclude that you have successfully launched the application.
+Of course, you can also create your own account.<br /><br/>
+![CargoTransportation](../master/src/img/Authorization.png)<br/>
+After authorization, you should be transferred to the main screen.
+<br /><br/>
+![CargoTransportation](../master/src/img/Mainpage.png)<br/>
+Thus, we can conclude that you have successfully launched the application.
 ## Books read before writing the application
 - C# 4.0 The Complete Reference - Herbert Schildt,
 - CLR via C# 4th edition - Jeffrey Richter,
