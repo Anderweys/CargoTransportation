@@ -32,7 +32,7 @@ If everything works, the start screen should appear. The application generates a
 - password: `123`<br />
 Of course, you can also create your own account.<br /><br/>
 ![CargoTransportation](../master/src/img/Authorization.png)<br/>
-After authorization, you should be transferred to the main screen.
+After authorization, you should be transferred to the main page.
 <br /><br/>
 ![CargoTransportation](../master/src/img/Mainpage.png)<br/>
 Thus, we can conclude that you have successfully launched the application.
@@ -47,4 +47,4 @@ Thus, we can conclude that you have successfully launched the application.
 - Implementing Domain-Driven Design - Vaughn Vernon,
 - .NET Microservices: Architecture for Containerized .NET Applications - Microsoft.
 ## Сode usage
-You can safely use the developments from this application for the purpose of self-development!
+You can safely use the developments from this application for the purpose of self-development and for your personal purposes.
