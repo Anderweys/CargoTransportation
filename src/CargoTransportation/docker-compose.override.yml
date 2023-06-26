@@ -1,7 +1,6 @@
 version: '3.4'
 
 services:
-
   mssql:
     container_name: mssql
     environment:
@@ -13,7 +12,7 @@ services:
     expose:
       - "1433"
     volumes:
-      - mssql:/var/opt/mssql
+      - ../data/mssql:/var/opt/mssql
 
   postgres:
     container_name: postgres
@@ -27,7 +26,7 @@ services:
     expose:
       - "5432"
     volumes:
-      - postgres:/var/lib/postgresql/data/pgdata
+      - ../data/postgres:/var/lib/postgresql/data/pgdata
 
   mongo:
     container_name: mongo
@@ -36,7 +35,7 @@ services:
     expose:
       - "27017"
     volumes:
-      - mongo:/data/db
+      - ../data/mongo:/data/db
 
   redis:
     container_name: redis
@@ -45,7 +44,7 @@ services:
     expose:
       - "6379"
     volumes:
-      - redis:/data
+      - ../data/redis:/data
 
   rabbitmq:
     container_name: rabbitmq
@@ -92,9 +91,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
       - postgres
 
@@ -126,8 +122,8 @@ services:
       #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/webmvc_c.pfx
     #ports:
       #- "7242:443" #<-- Project endpoint: https://localhost:7242/account/index.
-    volumes:
-      - ${USERPROFILE}/.aspnet/https:/https/
+    #volumes:
+    #  - ${USERPROFILE}/.aspnet/https:/https/
     depends_on:
       - apigateway
 
