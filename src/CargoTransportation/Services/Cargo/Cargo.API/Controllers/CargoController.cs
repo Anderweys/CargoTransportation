@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using CargoObject.Application.Commands.Command;
+using CargoObject.Application.Models;
 using CargoObject.Application.Queries.Query;
+using CargoObject.Application.Commands.Command;
 
 namespace CargoObject.API.Controllers;
 
@@ -19,6 +21,8 @@ public class CargoController : ControllerBase
     }
 
     [HttpPost("AddItems")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> AddItems([FromBody] AddItemsInMemoryCacheCommand command)
     {
         var commandResult = await _mediator.Send(command);
@@ -37,6 +41,7 @@ public class CargoController : ControllerBase
     }
 
     [HttpGet("GetCargoInfo")]
+    [ProducesResponseType(typeof(IEnumerable<CargoInfo>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetCargoInfo([FromQuery] GetCargoInfoQuery query)
     {
         // It's maybe null, because user may haven't any cargo.

@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Routing.API.Application.Commands;
+using Routing.API.Application.Models.DTOs;
 using Routing.API.Application.Queries;
 
 namespace Routing.API.Controllers;
@@ -19,6 +21,8 @@ public class RoutingController : ControllerBase
     }
 
     [HttpGet("GetDeliveryInfo")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(DeliveryInfoDTO), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDeliveryInfo([FromQuery] GetDeliveryInfoQuery query)
     {
         var queryResult = await _mediator.Send(query);
@@ -37,6 +41,8 @@ public class RoutingController : ControllerBase
     }
 
     [HttpPost("ConfirmCargoDelivery")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> ConfirmCargoDelivery([FromBody] CreateCargoCommand command)
     {
         var commandResult = await _mediator.Send(command);
@@ -55,6 +61,8 @@ public class RoutingController : ControllerBase
     }
 
     [HttpGet("LoadCities")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(IEnumerable<CityNameDTO>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> LoadCities([FromQuery] LoadCitiesQuery query)
     {
         var queryResult = await _mediator.Send(query);

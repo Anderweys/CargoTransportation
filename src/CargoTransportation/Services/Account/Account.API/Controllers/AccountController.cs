@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using System.Net;
 using Microsoft.AspNetCore.Mvc; 
+using Account.API.Domain.Entities;
 using Account.API.Application.Queries;
 using Account.API.Application.Commands;
 
@@ -19,6 +21,7 @@ public class AccountController : Controller
     }
 
     [HttpGet("getuser")]
+    [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetUser([FromQuery] GetUserAccountQuery query)
     {
         var result = await _mediator.Send(query);
@@ -27,6 +30,7 @@ public class AccountController : Controller
     }
 
     [HttpPost("adduser")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> AddUser([FromBody] AddUserAccountCommand command)
     {
         var result = await _mediator.Send(command);
