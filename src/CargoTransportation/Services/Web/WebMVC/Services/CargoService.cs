@@ -2,6 +2,7 @@
 using System.Text.Json;
 using WebMVC.Models.DTOs;
 using WebMVC.Infrastructure.API;
+using WebMVC.ViewModels.CargoViewModels;
 
 namespace WebMVC.Services;
 
@@ -34,7 +35,7 @@ public class CargoService : ICargoService
             var response = await _httpClient.PostAsync(uri, userItemsContent);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
-            { 
+            {
                 throw new InvalidOperationException();
             }
 
@@ -63,19 +64,36 @@ public class CargoService : ICargoService
         }
     }
 
-    public async Task<IEnumerable<CargoInfoDTO>?> GetCargoInfoAsync(string userId)
+    public async Task<IEnumerable<CargoViewModel>?> GetCargoInfoAsync(string userId)
     {
-        IEnumerable<CargoInfoDTO>? cargoInfoDto = null;
+        List<CargoViewModel>? cargoInfoViewModel = null;
         var uri = API.Cargo.GetCargo(_remoteServiceUrl, userId);
 
         try
         {
             var response = await _httpClient.GetStringAsync(uri);
 
-            cargoInfoDto = JsonSerializer.Deserialize<IEnumerable<CargoInfoDTO>>(response, new JsonSerializerOptions
+            var cargoInfoDto = JsonSerializer.Deserialize<IEnumerable<CargoInfoDTO>>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
+
+            if (cargoInfoDto is not null)
+            {
+                cargoInfoViewModel = new();
+                foreach (var cargoInfo in cargoInfoDto)
+                {
+                    CargoViewModel cargoViewModel = new
+                    (
+                        City: cargoInfo.City,
+                        Items: cargoInfo.Items,
+                        Price: cargoInfo.Price,
+                        Time: cargoInfo.Time
+                    );
+
+                    cargoInfoViewModel.Add(cargoViewModel);
+                }
+            }
         }
         catch (HttpRequestException)
         {
@@ -92,6 +110,6 @@ public class CargoService : ICargoService
                 DateTime.UtcNow.ToLongDateString());
         }
 
-        return cargoInfoDto;
+        return cargoInfoViewModel;
     }
 }
