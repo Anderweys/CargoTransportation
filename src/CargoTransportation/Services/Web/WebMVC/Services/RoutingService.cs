@@ -2,6 +2,7 @@
 using WebMVC.Models.DTOs;
 using WebMVC.Infrastructure.API;
 using WebMVC.ViewModels.RoutingViewModels;
+using WebMVC.Models;
 
 namespace WebMVC.Services;
 
@@ -24,28 +25,40 @@ public class RoutingService : IRoutingService
             .GetSection("url").Value ?? throw new ArgumentNullException(nameof(configuration));
     }
 
-    public async Task<IndexViewModel> GetDeliveryInfo(CityDTO cityDTO)
+    public async Task<RoutingViewModel> GetDeliveryInfo(CityDTO cityDTO)
     {
         var uri = API.Routing.GetDeliveryInfo(_remoteServiceUrl, cityDTO);
         var response = await _httpClient.GetStringAsync(uri);
-        var viewModel = JsonSerializer.Deserialize<IndexViewModel>(response, new JsonSerializerOptions
+
+        var viewModel = JsonSerializer.Deserialize<RoutingViewModel>(response, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         });
+
         return viewModel;
     }
 
-    public async Task<IEnumerable<CityNameDTO>> LoadCities()
+    public async Task<IEnumerable<CitiesName>> LoadCities()
     {
         var uri = API.Routing.LoadCities(_remoteServiceUrl);
-        IEnumerable<CityNameDTO>? cityNames = new List<CityNameDTO>();
+        List<CitiesName>? citiesNames = new();
         try
         {
             var response = await _httpClient.GetStringAsync(uri);
-            cityNames = JsonSerializer.Deserialize<IEnumerable<CityNameDTO>>(response, new JsonSerializerOptions
+            var citiesDto = JsonSerializer.Deserialize<IEnumerable<CityNameDTO>>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
+
+            if (citiesDto is not null)
+            {
+                foreach (var city in citiesDto)
+                {
+                    var temp = new CitiesName(city.Name);
+
+                    citiesNames.Add(temp);
+                }
+            }
         }
         catch (HttpRequestException)
         {
@@ -67,11 +80,9 @@ public class RoutingService : IRoutingService
                 "Response have nullable value. Service: {service}, Time: {time}.",
                 nameof(RoutingService),
                 DateTime.UtcNow.ToLongDateString());
-
-            cityNames = new List<CityNameDTO>();
         }
 
-        return cityNames;
+        return citiesNames;
     }
 
     public async Task<bool> ConfirmCargoCreating(UserPaymentDTO userPaymentDTO)
