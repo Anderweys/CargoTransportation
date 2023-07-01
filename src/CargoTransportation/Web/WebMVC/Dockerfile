@@ -1,15 +1,13 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Services/Web/WebMVC/WebMVC.csproj", "Services/Web/WebMVC/"]
-RUN dotnet restore "Services/Web/WebMVC/WebMVC.csproj"
+COPY ["Web/WebMVC/WebMVC.csproj", "Web/WebMVC/"]
+RUN dotnet restore "Web/WebMVC/WebMVC.csproj"
 COPY . .
-WORKDIR "/src/Services/Web/WebMVC"
+WORKDIR "/src/Web/WebMVC"
 RUN dotnet build "WebMVC.csproj" -c Release -o /app/build
 
 FROM build AS publish

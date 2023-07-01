@@ -20,7 +20,6 @@
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <script type="text/javascript">
         function LoadItemsFromServer() {
-
             $.ajax({
                 url: "@Url.Action("GetCargoInfo","Cargo")?token=" + localStorage.getItem("token"),
                 type: 'GET',
@@ -28,8 +27,8 @@
                 dataType: 'json',
                 success: function (array) {
                     var listCargo = "";
-                    if (!array) {
-                        listCargo = "No cargo yet";
+                    if (!array || array.length == 0) {
+                        listCargo = "No cargo's order yet.";
                     }
                     else {
                         for (var i = 0; i < array.length; i++) {
