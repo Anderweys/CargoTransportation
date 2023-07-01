@@ -1,6 +1,6 @@
 ﻿namespace WebMVC.ViewModels.RoutingViewModels;
 
-public class IndexViewModel
+public class RoutingViewModel
 {
     public string City { get; set; }
     public DateTime Time { get; set; }

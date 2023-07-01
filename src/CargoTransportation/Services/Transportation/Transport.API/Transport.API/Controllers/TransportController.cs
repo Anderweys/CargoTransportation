@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Transportation.API.Application.Models.DTOs;
 using Transportation.API.Application.Queries.Query;
@@ -19,6 +20,8 @@ public class TransportController : ControllerBase
     }
 
     [HttpGet("GetUserItems")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(IEnumerable<ItemDTO>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetUserItems([FromQuery] string userId)
     {
         var query = new GetUserItemsQuery(userId);
@@ -38,6 +41,8 @@ public class TransportController : ControllerBase
     }
 
     [HttpGet("GetTransportType")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(IEnumerable<TransportTypeDTO>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetTransportType([FromQuery] GetTransportTypeQuery query)
     {
         var transportTypes = await _mediator.Send(query);
@@ -55,6 +60,8 @@ public class TransportController : ControllerBase
     }
 
     [HttpGet("GetTransportInfo")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(TransportInfoDTO), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetTransportInfo([FromQuery] TransportUserDTO dto)
     {
         var query = new GetTransportInfoQuery(dto.UserId, dto.Type, dto.Name);

@@ -10,7 +10,7 @@
         <div class="btn-group" role="group">
             <h3 class="text-dark">Cargo Transportation - My cargo</h3>
             <div class="col-md-offset-9 col-md-1">
-                <input type="button" class="btn btn-outline-info btn-sm" value="Back" onclick="@("window.location.href='" + @Url.Action("MainPage", "Account") + "'");" />
+                <input type="button" class="btn btn-outline-info btn-sm" id="BackToMainPage" value="Back" />
             </div>
         </div>
         <p></p>
@@ -62,5 +62,15 @@
             });
         }
         setTimeout(() => { LoadItemsFromServer(); }, 600);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#BackToMainPage').click(function (e) {
+                e.preventDefault();
+                setTimeout(() => { window.location.replace('@Url.Action("MainPage", "Account")?token=' + localStorage.getItem("token")); }, 100);
+            });
+        });
     </script>
 </body>

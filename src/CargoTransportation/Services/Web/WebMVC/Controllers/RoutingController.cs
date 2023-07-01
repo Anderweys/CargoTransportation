@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
 using WebMVC.Services;
 using WebMVC.ViewModels;
 using WebMVC.Infrastructure;
+using WebMVC.ViewModels.CargoViewModels;
+using WebMVC.ViewModels.RoutingViewModels;
 
 namespace WebMVC.Controllers;
 
-// Old version.
-//[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
 public class RoutingController : Controller
 {
     private readonly IRoutingService _routingService;
@@ -18,21 +21,21 @@ public class RoutingController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index()
-    {
-        return View();
-    }
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public IActionResult Index() => View();
 
     [HttpPost]
+    [ProducesResponseType(typeof(RoutingViewModel), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> SelectCity([FromBody] CityModel city, [FromQuery] string token)
     {
         var userId = Authentication.ParseToken(token);
-        var viewModel = await _routingService.GetDeliveryInfo(new(userId, city.City));
+        var routingViewModel = await _routingService.GetDeliveryInfo(new(userId, city.City));
 
-        return Ok(viewModel);
+        return Ok(routingViewModel);
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<CitiesName>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> LoadCities([FromQuery] string token)
     {
         var cities = await _routingService.LoadCities();
@@ -41,6 +44,8 @@ public class RoutingController : Controller
     }
 
     [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Confirm([FromBody] Payment payment, [FromQuery] string token)
     {
         var userId = Authentication.ParseToken(token);

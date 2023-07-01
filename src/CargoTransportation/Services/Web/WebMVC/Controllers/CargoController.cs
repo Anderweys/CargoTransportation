@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
+using System.Net;
 using WebMVC.Services;
 using WebMVC.Models.DTOs;
 using WebMVC.Infrastructure;
+using WebMVC.ViewModels.CargoViewModels;
 
 namespace WebMVC.Controllers;
 
-// Old version.
-//[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
 public class CargoController : Controller
 {
     private readonly ICargoService _cargoService;
@@ -18,12 +20,15 @@ public class CargoController : Controller
     }
 
     [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public IActionResult Index() => View();
 
     [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public IActionResult MyCargo() => View();
 
     [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
     public async Task<IActionResult> PrepareAddedItems([FromBody] List<Item> items, [FromQuery] string token)
     {
         var userId = Authentication.ParseToken(token);
@@ -35,12 +40,13 @@ public class CargoController : Controller
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<CargoViewModel>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetCargoInfo([FromQuery] string token)
     {
         var userId = Authentication.ParseToken(token);
-        var cargoInfo = await _cargoService.GetCargoInfoAsync(userId);
+        var cargoInfoViewModel = await _cargoService.GetCargoInfoAsync(userId);
 
-        return Ok(cargoInfo);
+        return Ok(cargoInfoViewModel);
     }
 }
 

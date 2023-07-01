@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Net;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using WebMVC.Models;
@@ -20,19 +21,22 @@ public class AccountController : Controller
 
     [AllowAnonymous]
     [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public IActionResult Index() => View();
 
     [AllowAnonymous]
     [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public IActionResult Create() => View();
 
-    // Old version.
-    //[Authorize(AuthenticationSchemes = "AuthenticateJwt")]
+    [Authorize(AuthenticationSchemes = "AuthenticateJwt")]
     [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public IActionResult MainPage() => View();
 
     [AllowAnonymous]
     [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> SignIn([FromQuery] User user)
     {
         var result = await _accountService.GetAsync(user);
@@ -53,6 +57,8 @@ public class AccountController : Controller
 
     [AllowAnonymous]
     [HttpPost]
+    [ProducesResponseType(typeof(bool),(int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> Create([FromQuery] User user)
     {
         var isCreated = await _accountService.AddAsync(user);
