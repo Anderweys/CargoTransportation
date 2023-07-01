@@ -29,7 +29,7 @@ services:
     image: ${DOCKER_REGISTRY-}webmvc
     build:
       context: .
-      dockerfile: Services/Web/WebMVC/Dockerfile
+      dockerfile: Web/WebMVC/Dockerfile
 
   transportation.api:
     image: ${DOCKER_REGISTRY-}transportationapi

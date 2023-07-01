@@ -23,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}",
