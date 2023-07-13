@@ -3,5 +3,5 @@
 public record DeliveryInfoDTO(
     string City,
     DateTime Time,
-    IEnumerable<ItemInfo> ItemInfos,
+    IEnumerable<ItemInfo> Items,
     float Price);

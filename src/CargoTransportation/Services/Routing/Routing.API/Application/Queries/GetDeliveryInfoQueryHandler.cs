@@ -4,7 +4,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using Routing.API.Application.Models;
 using Routing.API.Application.Models.DTOs;
 using Routing.API.Infrastructure.Services;
-using Routing.API.Application.Commands;
 
 namespace Routing.API.Application.Queries;
 
