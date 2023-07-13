@@ -3,11 +3,12 @@
     {
       "UpstreamPathTemplate": "/api/cargo/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/api/v1/cargo/{action}",
+      "DownstreamPathTemplate": "/api/cargo/{action}",
       "DownstreamScheme": "http",
+      "SwaggerKey": "cargo",
       "DownstreamHostAndPorts": [
         {
-          "Host": "cargo.api",
+          "Host": "cargo",
           "Port": 80
         }
       ]
@@ -15,11 +16,12 @@
     {
       "UpstreamPathTemplate": "/api/transport/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/api/v1/transport/{action}",
+      "DownstreamPathTemplate": "/api/transport/{action}",
       "DownstreamScheme": "http",
+      "SwaggerKey": "transport",
       "DownstreamHostAndPorts": [
         {
-          "Host": "transportation.api",
+          "Host": "transportation",
           "Port": 80
         }
       ]
@@ -27,11 +29,12 @@
     {
       "UpstreamPathTemplate": "/api/routing/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/api/v1/routing/{action}",
+      "DownstreamPathTemplate": "/api/routing/{action}",
       "DownstreamScheme": "http",
+      "SwaggerKey": "routing",
       "DownstreamHostAndPorts": [
         {
-          "Host": "routing.api",
+          "Host": "routing",
           "Port": 80
         }
       ]
@@ -39,12 +42,59 @@
     {
       "UpstreamPathTemplate": "/api/account/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/api/v1/account/{action}",
+      "DownstreamPathTemplate": "/api/account/{action}",
       "DownstreamScheme": "http",
+      "SwaggerKey": "account",
       "DownstreamHostAndPorts": [
         {
-          "Host": "account.api",
+          "Host": "account",
           "Port": 80
+        }
+      ]
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "account",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "account",
+          "Version": "v1",
+          "Url": "http://account:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "cargo",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "cargo",
+          "Version": "v1",
+          "Url": "http://cargo:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "routing",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "routing",
+          "Version": "v1",
+          "Url": "http://routing:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "transport",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "transport",
+          "Version": "v1",
+          "Url": "http://transportation:80/swagger/v1/swagger.json"
         }
       ]
     }

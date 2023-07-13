@@ -4,13 +4,17 @@ using Ocelot.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("ocelot.json", false, true);
-builder.Services.AddOcelot(builder.Configuration);
-builder.Services.AddControllers();
+builder.Services.AddOcelot();
+builder.Services.AddSwaggerForOcelot(builder.Configuration);
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-app.MapControllers();
-
-await app.UseOcelot();
+await app
+    .UseSwaggerForOcelotUI(opt =>
+    {
+        opt.PathToSwaggerGenerator = "/swagger/docs";
+    })
+    .UseOcelot();
 
 app.Run();
