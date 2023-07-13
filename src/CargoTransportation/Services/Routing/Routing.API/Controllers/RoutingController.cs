@@ -7,7 +7,7 @@ using Routing.API.Application.Queries;
 
 namespace Routing.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class RoutingController : ControllerBase
 {
