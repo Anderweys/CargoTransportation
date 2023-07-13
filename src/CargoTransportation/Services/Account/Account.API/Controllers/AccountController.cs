@@ -8,7 +8,7 @@ using Account.API.Application.Commands;
 namespace Account.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class AccountController : Controller
 {
     private readonly IMediator _mediator;
@@ -20,7 +20,7 @@ public class AccountController : Controller
         _logger=logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    [HttpGet("getuser")]
+    [HttpGet("GetUser")]
     [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetUser([FromQuery] GetUserAccountQuery query)
     {
@@ -29,7 +29,7 @@ public class AccountController : Controller
         return Ok(result);
     }
 
-    [HttpPost("adduser")]
+    [HttpPost("AddUser")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> AddUser([FromBody] AddUserAccountCommand command)
     {
