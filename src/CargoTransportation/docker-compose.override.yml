@@ -57,7 +57,7 @@ services:
     container_name: cargo
     hostname: cargo
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     depends_on:
       - mssql
@@ -68,7 +68,7 @@ services:
     container_name: routing
     hostname: routing
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     depends_on:
       - mongo
@@ -79,7 +79,7 @@ services:
     container_name: transportation
     hostname: transportation
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     depends_on:
       - mongo
@@ -96,8 +96,9 @@ services:
 
   apigateway:
     container_name: ocelot
+    hostname: ocelot
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     depends_on:
       - cargo.api
@@ -109,12 +110,10 @@ services:
     container_name: webmvc
     hostname: webmvc
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-    expose:
-      - "80"
       #
-      # Old version.
+      #  Old version.
       #
       #- ASPNETCORE_URLS=https://+:443;http://+:80
       #- ASPNETCORE_HTTPS_PORT=7242
@@ -123,11 +122,11 @@ services:
     #ports:
       #- "7242:443" #<-- Project endpoint: https://localhost:7242/account/index.
     #volumes:
-    #  - ${USERPROFILE}/.aspnet/https:/https/
+      #- ${USERPROFILE}/.aspnet/https:/https/
     depends_on:
       - apigateway
 
-  nginx:
+  reverse_proxy:
     container_name: nginx
     ports:
       - "5090:80"

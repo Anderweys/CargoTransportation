@@ -16,7 +16,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management 
   
-  nginx:
+  reverse_proxy:
     image: nginx
   
   apigateway:
