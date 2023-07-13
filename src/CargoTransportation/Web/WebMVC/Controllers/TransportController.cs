@@ -5,7 +5,6 @@ using WebMVC.Services;
 using WebMVC.Models.DTOs;
 using WebMVC.Infrastructure;
 using System.Net;
-using WebMVC.ViewModels.CargoViewModels;
 
 namespace WebMVC.Controllers;
 
@@ -19,10 +18,9 @@ public class TransportController : Controller
         _transportService = transportService ?? throw new ArgumentNullException(nameof(transportService));
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public IActionResult Index() => View();
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<Item>), (int)HttpStatusCode.OK)]

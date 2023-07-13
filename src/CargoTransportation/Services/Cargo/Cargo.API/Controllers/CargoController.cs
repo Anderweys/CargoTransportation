@@ -8,7 +8,7 @@ using CargoObject.Application.Commands.Command;
 namespace CargoObject.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class CargoController : ControllerBase
 {
     private readonly IMediator _mediator;

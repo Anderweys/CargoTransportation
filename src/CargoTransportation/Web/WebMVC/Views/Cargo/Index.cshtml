@@ -7,45 +7,52 @@
 </head>
 <body>
     <div class="container">
-        <div class="form-group">
-            <h3 class="text-dark">Cargo Transportation - Items catalog</h3>
-        </div>
-
-        <div class="col-md-4 form-group">
-            <input type="text" id="name" class="form-control" placeholder="Name" />
-        </div>
-
-        <div class="col-md-4 form-group">
-            <input type="text" id="description" class="form-control" placeholder="Description" />
-        </div>
-
-        <div class="col-md-4 form-group">
-            <input type="number" id="length" class="form-control" placeholder="Length" min="1" max="10" step="0.1" onkeyup="if(value<1) value=1;if(value>10) value=10;" />
-        </div>
-
-        <div class="col-md-4 form-group">
-            <input type="number" id="width" class="form-control" placeholder="Width" min="1" max="3" step="0.1" onkeyup="if(value<1) value=1;if(value>3) value=3;" />
-        </div>
-
-        <div class="col-md-4 form-group">
-            <input type="number" id="height" class="form-control" placeholder="Height" min="1" max="3" step="0.1" onkeyup="if(value<1) value=1;if(value>3) value=3;" />
-        </div>
-
-        <div class="col-md-4 form-group">
-            <input type="number" id="price" class="form-control" placeholder="Price" />
-        </div>
-
-        <div class="btn-group" role="group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type='button' class="btn btn-outline-secondary btn-sm" id="addItem" value='Add' />
+        <form class="was-validation">
+            <div class="form-group">
+                <h3 class="text-dark">Cargo Transportation - Items catalog</h3>
             </div>
-            <div class="col-md-offset-2 col-md-10">
-                <input type='button' class="btn btn-primary btn-sm" id="ready" value='Ready' />
+
+            <div class="col-md-4 form-group">
+                <input type="text" id="name" class="form-control" placeholder="Name" />
             </div>
+
+            <div class="col-md-4 form-group">
+                <input type="text" id="description" class="form-control" placeholder="Description" />
+            </div>
+
+            <div class="col-md-4 form-group">
+                <input type="number" id="length" class="form-control" placeholder="Length" min="1" max="10" step="0.1" onkeyup="if(value<1) value=1;if(value>10) value=10;" />
+            </div>
+
+            <div class="col-md-4 form-group">
+                <input type="number" id="width" class="form-control" placeholder="Width" min="1" max="3" step="0.1" onkeyup="if(value<1) value=1;if(value>3) value=3;" />
+            </div>
+
+            <div class="col-md-4 form-group">
+                <input type="number" id="height" class="form-control" placeholder="Height" min="1" max="3" step="0.1" onkeyup="if(value<1) value=1;if(value>3) value=3;" />
+            </div>
+
+            <div class="col-md-4 form-group">
+                <input type="number" id="price" class="form-control" placeholder="Price" />
+            </div>
+
+            <div class="btn-group" role="group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type='submit' class="btn btn-outline-secondary btn-sm" id="addItem" value='Add' />
+                </div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type='button' class="btn btn-primary btn-sm" id="ready" value='Ready' />
+                </div>
+            </div>
+        </form>
+        <div class="col-md-offset-2 col-md-2">
+            <label class="text-danger" id="info"></label>
         </div>
         <p></p>
-        <dl class="row" id="itemList">
-        </dl>
+        <div class="col-md-offset-2 col-md-10">
+            <dl class="row" id="itemList">
+            </dl>
+        </div>
     </div>
 
     <!-- Added item for trasportation. -->
@@ -55,6 +62,13 @@
             $('#addItem').click(function (e) {
                 e.preventDefault();
 
+                if (!$('#name').val() || !$('#description').val() || !$('#length').val() ||
+                    !$('#width').val() || !$('#height').val() || !$('#price').val()) {
+                    $('#info').html("Fill in all the fields.");
+                    return;
+                }
+
+                $('#info').html("");
                 var name = `<dt class="col-sm-3 text-primary">Name: </dt><dd class="col-sm-9 text-primary">` + $('#name').val() + "</dd>";
                 var description = `<dt class="col-sm-3">Description: </dt><dd class="col-sm-9">` + $('#description').val() + "</dd>";
                 var length = `<dt class="col-sm-3">Length: </dt><dd class="col-sm-9">` + $('#length').val() + "</dd>";
@@ -77,9 +91,17 @@
         $(document).ready(function () {
             $('#ready').click(function (e) {
                 e.preventDefault();
-                const countOfproperty = 6; // 6 - count of item's properties.
+
                 var dl = document.getElementById("itemList");
                 var items = dl.getElementsByTagName("dd");
+
+                if (items.length == 0) {
+                    $('#info').html("Item's list is emplty.");
+                    return;
+                }
+                $('#info').html("");
+
+                const countOfproperty = 6; // 6 - count of item's properties.
 
                 const array = [];
                 var item = {};
@@ -111,7 +133,7 @@
                         setTimeout(() => { window.location.replace('@Url.Action("Index", "Transport")?token=' + localStorage.getItem("token")); }, 300);
                     }
                 });
-            }); 20
+            });
         });
     </script>
 </body>

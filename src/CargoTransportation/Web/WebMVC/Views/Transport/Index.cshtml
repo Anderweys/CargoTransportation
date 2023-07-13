@@ -40,10 +40,14 @@
                 <input type='button' class="btn btn-primary btn-sm" id="ConfirmTransport" value='Confirm' />
             </div>
         </div>
-
+        <div class="col-md-offset-2 col-md-2">
+            <label class="text-danger" id="info"></label>
+        </div>
         <p></p>
-        <dl class="row" id="itemList">
-        </dl>
+        <div class="col-md-offset-2 col-md-10">
+            <dl class="row" id="itemList">
+            </dl>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
@@ -56,7 +60,6 @@
                 "name": name,
                 "type": type
             };
-
             $.ajax({
                 url: "@Url.Action("SelectTransport","Transport")?token=" + localStorage.getItem("token"),
                 type: 'POST',
@@ -66,7 +69,7 @@
                 success: function (data) {
                     $('#transport').html("Transport: " + data.transport);
                     $('#countCargo').html("Count cargo: " + data.countCargo);
-                    $('#price').html("Price: "+ data.price + " $");
+                    $('#price').html("Price: " + data.price + " $");
                 }
             });
         }
@@ -77,6 +80,15 @@
         $(document).ready(function () {
             $('#ConfirmTransport').click(function (e) {
                 e.preventDefault();
+                var count = $('#countCargo').html();
+                var offset = String(count).indexOf(':') + 2;
+                var value = String(count).substring(offset);
+                if (value == 0) {
+                    $('#info').html("Select a transport type.");
+                    return;
+                }
+                $('#info').html("");
+
                 setTimeout(() => { window.location.replace('@Url.Action("Index", "Routing")?token=' + localStorage.getItem("token")); }, 500);
                 $('#itemList').html("Waiting...");
             });

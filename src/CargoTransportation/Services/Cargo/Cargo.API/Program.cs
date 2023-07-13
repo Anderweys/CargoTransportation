@@ -2,7 +2,17 @@ using System.Reflection;
 using CargoObject.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(s =>
+{
+    s.SwaggerDoc(
+        "v1",
+        new()
+        {
+            Title = "Cargo.API",
+            Version = "v1"
+        }
+    );
+});
 builder.Services.AddControllers();
 builder.Services.AddCargoRepository();
 builder.Services.AddCargoContext(builder.Configuration);
@@ -44,8 +54,12 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app
+        .UseSwagger()
+        .UseSwaggerUI(s =>
+        {
+            s.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+        });
     app.UseDeveloperExceptionPage();
 }
 

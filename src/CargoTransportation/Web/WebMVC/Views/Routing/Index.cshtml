@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-md-4 form-group">
-            <label class="text-secondary form-label" id="time">Time: 00:00:00</label>
+            <label class="text-secondary form-label" id="time">Date: 0000-00-00</label>
         </div>
 
         <div class="col-md-4 form-group">
@@ -41,7 +41,9 @@
                 <input type='button' class="btn btn-success btn-sm" id="confirm" value='Confirm' />
             </div>
         </div>
-
+        <div class="col-md-offset-2 col-md-2">
+            <label class="text-danger" id="info"></label>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
@@ -58,17 +60,21 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
                 success: function (data) {
-                    var items = "";
+                    var items = "Items: ";
                     for (var i = 0; i < data.items.length; i++) {
                         var item = data.items[i];
                         for (var key in item) {
                             var value = item[key] + " ";
+                            console.log(value);
                             items += value;
                         }
-                        items += ", ";
+                        items += "; ";
                     }
+
+                    let time = new Date(data.time).toISOString().slice(0, 10);
+
                     $('#city').html("City: " + data.city);
-                    $('#time').html("Time delivery: " + data.time);
+                    $('#time').html("Time delivery: " + time);
                     $('#items').html(items);
                     $('#totalPrice').html("Totat price: " + data.price + " $");
                 }
@@ -81,13 +87,19 @@
         $(document).ready(function () {
             $('#confirm').click(function (e) {
                 e.preventDefault();
+
+                if ($('#city').html() == "City: not selected") {
+                    $('#info').html("Select a city.");
+                    return;
+                }
+                $('#info').html("");
+
                 $('#info').html("Payment in progress...");
                 var data = {
                     "city": document.getElementById("city").textContent.replace("City: ", ''),
                     "money": document.getElementById("totalPrice").textContent.replace("Totat price: ", '').split(' ')[0].replace(',', '.'),
                     "time": document.getElementById("time").textContent.replace("Time delivery: ", '')
                 };
-                console.log(data);
                 $.ajax({
                     url: "@Url.Action("Confirm","Routing")?token=" + localStorage.getItem("token"),
                     type: 'POST',

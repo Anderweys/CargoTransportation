@@ -5,7 +5,6 @@ using WebMVC.Models;
 using WebMVC.Services;
 using WebMVC.ViewModels;
 using WebMVC.Infrastructure;
-using WebMVC.ViewModels.CargoViewModels;
 using WebMVC.ViewModels.RoutingViewModels;
 
 namespace WebMVC.Controllers;
