@@ -6,7 +6,7 @@ using Transportation.API.Application.Queries.Query;
 
 namespace Transportation.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class TransportController : ControllerBase
 {
