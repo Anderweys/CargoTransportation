@@ -21,12 +21,7 @@ public class GetUserItemsQueryHandler : IRequestHandler<GetUserItemsQuery, IEnum
     {
         try
         {
-            var userItemsString = await _cache.GetStringAsync(request.UserId);
-
-            if (userItemsString is null)
-            {
-                throw new ArgumentNullException();
-            }
+            var userItemsString = await _cache.GetStringAsync(request.UserId) ?? throw new ArgumentNullException(nameof(request));
             var items = JsonSerializer.Deserialize<IEnumerable<ItemDTO>>(userItemsString);
 
             return items;

@@ -1,4 +1,5 @@
 ﻿using CargoObject.Domain.SeedWork;
+using CargoTypeReadModel = CargoObject.Domain.ReadModels.CargoAggregates.CargoType;
 
 namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
@@ -12,10 +13,20 @@ public class CargoType : Entity
     {
     }
 
-    public CargoType(int id, string typeName)
+    public CargoType(Guid id, string typeName)
     {
         Id = id;
         TypeName = typeName;
+    }
+
+    public CargoType ParseFromReadModel(CargoTypeReadModel readModel)
+    {
+        Id = readModel.Id;
+        TypeName = readModel.TypeName;
+        CargoSize = new CargoSize().ParseFromReadModel(readModel.CargoSize);
+        CargoProperty = new CargoProperty().ParseFromReadModel(readModel.CargoProperty);
+
+        return this;
     }
 }
 

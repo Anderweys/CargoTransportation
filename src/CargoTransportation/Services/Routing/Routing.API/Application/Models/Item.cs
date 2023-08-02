@@ -2,7 +2,7 @@
 
 public class Item
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public string Name { get; init; }
     public string Description { get; init; }
     public float Length { get; init; }
@@ -11,7 +11,7 @@ public class Item
     public float Price { get; init; }
 
     public Item(
-        int id, string name, string description,
+        Guid id, string name, string description,
         float length, float width, float height, float price)
     {
         Id = id;

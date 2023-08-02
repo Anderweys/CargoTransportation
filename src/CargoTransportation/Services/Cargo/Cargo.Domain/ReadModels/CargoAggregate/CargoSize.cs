@@ -1,7 +1,6 @@
 ﻿using CargoObject.Domain.SeedWork;
-using CargoSizeReadModel = CargoObject.Domain.ReadModels.CargoAggregates.CargoSize;
 
-namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
+namespace CargoObject.Domain.ReadModels.CargoAggregates;
 
 public class CargoSize : ValueObject
 {
@@ -20,15 +19,5 @@ public class CargoSize : ValueObject
         Width = width;
         Height = heigth;
         Volume = length * width * heigth;
-    }
-
-    public CargoSize ParseFromReadModel(CargoSizeReadModel readModel)
-    {
-        Length = readModel.Length;
-        Width = readModel.Width;
-        Height = readModel.Height;
-        Volume = readModel.Volume;
-
-        return this;
     }
 }

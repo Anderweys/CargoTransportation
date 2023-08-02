@@ -1,7 +1,6 @@
 ﻿using CargoObject.Domain.SeedWork;
-using CargoPropertyReadModel = CargoObject.Domain.ReadModels.CargoAggregates.CargoProperty;
 
-namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
+namespace CargoObject.Domain.ReadModels.CargoAggregates;
 
 public class CargoProperty : ValueObject
 {
@@ -21,14 +20,5 @@ public class CargoProperty : ValueObject
         MinTemperature=minTemperature;
         MaxPressure=maxPressure;
         MinPressure=minPressure;
-    }
-
-    public CargoProperty ParseFromReadModel(CargoPropertyReadModel readModel)
-    {
-        MaxTemperature=readModel.MaxTemperature;
-        MinTemperature=readModel.MinTemperature;
-        MaxPressure=readModel.MaxPressure;
-        MinPressure=readModel.MinPressure;
-        return this;
     }
 }

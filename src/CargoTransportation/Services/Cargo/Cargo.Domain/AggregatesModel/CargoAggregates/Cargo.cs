@@ -1,12 +1,10 @@
 ﻿using CargoObject.Domain.Events;
 using CargoObject.Domain.SeedWork;
-using System.Collections.ObjectModel;
 
 namespace CargoObject.Domain.AggregatesModel.CargoAggregates;
 
-public class Cargo : Entity, IAggregateRoot
+public class Cargo : Aggregate, IAggregateRoot, ICloneable
 {
-    public string UserId { get; private set; }
     public string Name { get; private set; }
     public string City { get; private set; }
     public float Price { get; private set; }
@@ -14,52 +12,74 @@ public class Cargo : Entity, IAggregateRoot
     public float CurrentVolume { get; private set; }
     public CargoType CargoType { get; private set; }
     private List<CargoItem> _cargoItems;
+    public List<CargoItem> CargoItems => _cargoItems.AsReadOnly().ToList();
 
     public Cargo()
     {
-        _cargoItems = new List<CargoItem>();
     }
 
-    public Cargo(string userId, string name, string city, float money, DateTime time, CargoType cargoType)
+    public Cargo(Guid id, string name, string city, float money, DateTime time, CargoType cargoType, List<CargoItem>? cargoItems = default, float currentVolume = 0)
     {
-        UserId = userId;
-        Name = name;
-        City = city;
-        Price = money;
-        Time = time;
-        CargoType = cargoType;
-        CurrentVolume = 0;
-        _cargoItems = new List<CargoItem>();
+        if (id == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(id));
+        }
+
+        var @event = new CargoCreatedDomainEvent(
+            id,
+            name,
+            city,
+            money,
+            time,
+            currentVolume,
+            cargoType,
+            cargoItems?? new()
+        );
+
+        ApplyEvent(@event);
     }
 
-    public void PlaceItem(string name, string description, float price, 
+    internal void Apply(CargoCreatedDomainEvent @event)
+    {
+        Id = @event.Id;
+        Name = @event.Name;
+        City = @event.City;
+        Price = @event.Price;
+        Time = @event.Time;
+        CurrentVolume = @event.CurrentVolume;
+        CargoType = @event.CargoType;
+        _cargoItems = @event.CargoItems;
+    }
+    internal void Apply(ItemAddedInCargoDomainEvent @event)
+    {
+        AddItem(new(
+            @event.Name,
+            @event.Description,
+            @event.Price,
+            @event.Length,
+            @event.Width,
+            @event.Height
+        ));
+    }
+
+    public void PlaceItem(string name, string description, float price,
         float length, float height, float width)
     {
 
-        if (HasFreePlace(length, height, width))
+        if (!HasFreePlace(length, height, width))
         {
-            AddItem(new(name, description, price, length, width, height));
+            throw new ArgumentOutOfRangeException("The item so large!");
         }
+
+        ApplyEvent(new ItemAddedInCargoDomainEvent(
+            name,
+            description,
+            price,
+            length,
+            width,
+            height
+        ));
     }
-
-    public void RemoveCargoItemById(int id)
-    {
-        _cargoItems.RemoveAt(id);
-    }
-
-    public void LoadCargo()
-    {
-        var cargoPlacedDomainEvent = new CargoPlacedDomainEvent(
-                UserId.Length,
-                $"A new cargo with items prepared for loading.\n" +
-                $"LoaderId: {UserId}\nId: {Id}",
-                this,
-                DateTime.UtcNow);
-
-        AddDomainEvent(cargoPlacedDomainEvent);
-    }
-
-    public List<CargoItem> CargoItems => _cargoItems.AsReadOnly().ToList();
 
     private void AddItem(CargoItem item)
     {
@@ -79,4 +99,6 @@ public class Cargo : Entity, IAggregateRoot
             return true;
         }
     }
+
+    public object Clone() => new Cargo(Id, Name, City, Price, Time, CargoType, CargoItems, CurrentVolume);
 }

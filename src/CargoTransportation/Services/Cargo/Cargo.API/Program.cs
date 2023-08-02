@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen(s =>
 builder.Services.AddControllers();
 builder.Services.AddCargoRepository();
 builder.Services.AddCargoContext(builder.Configuration);
+builder.Services.AddMarten(builder.Configuration);
 builder.Services.AddMediatR(config =>
 {
     /* Unfortunately this don't work:
@@ -27,8 +28,8 @@ builder.Services.AddMediatR(config =>
     * So we need to add all library (as assembly) that contains MediatR.
     */
     
-    Assembly.GetAssembly(typeof(Program)).GetReferencedAssemblies()                     // Get all assemblies name this solutions.
-        .Where(a => a.Name.Contains("Cargo"))                                           // Search our assemblies with MediatR.
+    Assembly.GetAssembly(typeof(Program)).GetReferencedAssemblies()    // Get all assemblies name this solutions.
+        .Where(a => a.Name.Contains("Cargo"))                          // Search our assemblies with MediatR.
         .ToList()                                                                       
         .ForEach(a =>
         {

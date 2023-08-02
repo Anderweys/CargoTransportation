@@ -1,5 +1,5 @@
 ﻿namespace Transportation.API.Application.Models.DTOs;
 
 public record ItemDTO(
-    int Id, string Name, string Description,
+    Guid Id, string Name, string Description,
     float Length, float Width, float Height, float Price);

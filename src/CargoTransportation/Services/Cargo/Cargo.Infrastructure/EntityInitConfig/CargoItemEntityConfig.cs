@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.ReadModels.CargoAggregates;
 
 namespace CargoObject.Infrastructure.EntityInitConfig;
 
@@ -10,7 +10,5 @@ public class CargoItemEntityConfig : IEntityTypeConfiguration<CargoItem>
     {
         builder.ToTable(nameof(CargoItem));
         builder.HasKey(x => x.Id);
-
-        builder.Ignore(t => t.DomainEvents);
     }
 }
