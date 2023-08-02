@@ -1,15 +1,15 @@
 ﻿using MediatR;
 using CargoObject.Application.Models;
-using CargoObject.Domain.AggregatesModel.CargoAggregates;
 using CargoObject.Application.Queries.Query;
+using CargoObject.Domain.ReadModels.CargoAggregates;
 
 namespace CargoObject.Application.Queries.Handler;
 
 public class GetCargoInfoQueryHandler : IRequestHandler<GetCargoInfoQuery, IEnumerable<CargoInfo>>
 {
-    private readonly ICargoRepository _cargoRepository;
+    private readonly ICargoReadRepository _cargoRepository;
 
-    public GetCargoInfoQueryHandler(ICargoRepository cargoRepository)
+    public GetCargoInfoQueryHandler(ICargoReadRepository cargoRepository)
     {
         _cargoRepository = cargoRepository ?? throw new ArgumentNullException(nameof(cargoRepository));
     }
