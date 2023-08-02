@@ -11,35 +11,14 @@ public abstract class Entity
     /// The identifier.
     /// Is a important entity's member.
     /// </summary>
-    private int _id;
+    private Guid _id;
 
-    public virtual int Id
+    public virtual Guid Id
     {
         get => _id;
         protected set
         {
             _id = value;
         }
-    }
-
-    /// <summary>
-    /// The domain events.
-    /// Using for saving domain events from other aggregates.
-    /// </summary>
-    private List<INotification> _domainEvents;
-    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents.AsReadOnly();
-
-    public void AddDomainEvent(INotification domainEvent)
-    {
-        _domainEvents ??= new List<INotification>();
-        _domainEvents.Add(domainEvent);
-    }
-    public void RemoveDomainEvent(INotification domainEvent)
-    {
-        _domainEvents.Remove(domainEvent);
-    }
-    public void ClearDomainEvent()
-    {
-        _domainEvents.Clear();
     }
 }
