@@ -1,36 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.ReadModels.CargoAggregates;
 
 namespace CargoObject.Infrastructure.Repositories;
 
-public class CargoRepository : ICargoRepository
+public class CargoReadRepository : ICargoReadRepository
 {
     private readonly CargoContext _context;
 
-    public CargoRepository(CargoContext context)
+    public CargoReadRepository(CargoContext context)
     {
         _context = context;
     }
 
-    public async Task<Cargo> AddAsync(Cargo cargo)
+    public async Task<bool> AddAsync(Cargo cargo)
     {
-        var result = await _context.Cargos.AddAsync(cargo);
-
-        if (result.Entity is null)
-        {
-            return new Cargo();
-        }
+        var result = await _context.Cargos.AddAsync(cargo) is not null;
 
         await _context.SaveChangesAsync();
 
-        return result.Entity;
+        return result;
     }
 
-    public async Task<IEnumerable<Cargo>> GetByUserIdAsync(string userId)
+    public async Task<IEnumerable<Cargo>> GetByUserIdAsync(string id)
     {
         var result = await _context.Cargos
             .Include(c => c.CargoItems)
-            .Where(c => c.UserId == userId)
+            .Where(c => c.Name == id)
             .ToListAsync();
 
         if (result is null)

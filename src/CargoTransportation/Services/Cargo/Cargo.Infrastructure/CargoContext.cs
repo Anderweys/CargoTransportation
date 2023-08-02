@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.ReadModels.CargoAggregates;
 using CargoObject.Infrastructure.EntityInitConfig;
 
 namespace CargoObject.Infrastructure;
@@ -35,7 +35,7 @@ public class CargoContext : DbContext
         // Because we cann't create CargoType with 2 value objects: CargoSize & CargoProperty.
         // And need init all dependency value objects, after init CargoType.
         // So first init CargoSize & CargoProperty.
-        // After Init CargoType with there created value objects: CargoSize & CargoProperty.
+        // After Init CargoType with those created value objects: CargoSize & CargoProperty.
 
         // Step 1: Init CargoSize.
         model.Entity<CargoSize>().HasData(new[]
@@ -57,9 +57,9 @@ public class CargoContext : DbContext
         // (Yes, Value Object cann't contain ID property, but EF Core cann't work with table without ID. Because we was created shadow key).
         model.Entity<CargoType>().HasData(new[]
         {
-            new{Id = 1, TypeName = "small", CargoSizeId = 1, CargoPropertyId = 1},
-            new{Id = 2, TypeName = "average", CargoSizeId = 2, CargoPropertyId = 2},
-            new{Id = 3, TypeName = "large", CargoSizeId = 3, CargoPropertyId = 3}
+            new{Id = Guid.NewGuid(), TypeName = "small", CargoSizeId = 1, CargoPropertyId = 1},
+            new{Id = Guid.NewGuid(), TypeName = "average", CargoSizeId = 2, CargoPropertyId = 2},
+            new{Id = Guid.NewGuid(), TypeName = "large", CargoSizeId = 3, CargoPropertyId = 3}
         });
     }
 }
