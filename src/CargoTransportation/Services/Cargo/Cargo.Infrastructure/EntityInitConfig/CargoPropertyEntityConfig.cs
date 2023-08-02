@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CargoObject.Domain.AggregatesModel.CargoAggregates;
+using CargoObject.Domain.ReadModels.CargoAggregates;
 
 namespace CargoObject.Infrastructure.EntityInitConfig;
 
@@ -12,5 +12,7 @@ public class CargoPropertyEntityConfig : IEntityTypeConfiguration<CargoProperty>
 
         builder.Property<int>("Id")
             .IsRequired();
+
+        builder.HasKey("Id");
     }
 }
